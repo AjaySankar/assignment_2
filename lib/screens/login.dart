@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/input_decoration.dart';
+import 'package:assignment_2/utils/login_register_buttons.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -53,7 +54,8 @@ class _LoginState extends State<Login> {
                       onSaved: (value) => setState(() { _password = passwordController.text; }),
                       decoration: buildInputDecoration("Password", Icons.lock),
                     ),
-                    SizedBox(height: 20.0)
+                    SizedBox(height: 20.0),
+                    longButtons("Login", () => {})
                   ],
                 ),
               ),

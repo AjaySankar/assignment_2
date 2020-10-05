@@ -26,6 +26,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
 
+    var login = () {
+      final form = formKey.currentState;
+      if (form.validate()) {
+        print("All good");
+      }
+    };
+
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -64,7 +71,7 @@ class _LoginState extends State<Login> {
                       decoration: buildInputDecoration("Password", Icons.lock),
                     ),
                     SizedBox(height: 20.0),
-                    longButtons("Login", () => {}),
+                    longButtons("Login", login),
                     SizedBox(height: 30.0),
                     Center(
                       child: FlatButton(

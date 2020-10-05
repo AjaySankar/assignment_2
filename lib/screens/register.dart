@@ -11,11 +11,11 @@ class _RegisterState extends State<Register> {
   final formKey = new GlobalKey<FormState>();
 
   String _userName, _password, _confirmPassword, _nickName, _email;
-  TextEditingController nickNameController;
-  TextEditingController userNameController;
-  TextEditingController passwordController;
-  TextEditingController confirmPasswordController;
-  TextEditingController emailController;
+  TextEditingController nickNameController = TextEditingController(text: '');
+  TextEditingController userNameController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  TextEditingController confirmPasswordController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
 
   @override
   void dispose() {

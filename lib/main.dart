@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/login.dart';
+import 'package:assignment_2/screens/register.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +34,10 @@ class MyApp extends StatelessWidget {
           ),
         body: Login()
       ),
+      routes: {
+        '/login': (context) => Login(),
+        '/register': (context) => Register(),
+      },
     );
   }
 }

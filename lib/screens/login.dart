@@ -11,8 +11,8 @@ class _LoginState extends State<Login> {
   final formKey = new GlobalKey<FormState>();
 
   String _nickname, _password;
-  TextEditingController nickNameController;
-  TextEditingController passwordController;
+  TextEditingController nickNameController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
 
   @override
   void dispose() {
@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
                             )
                         ),
                         onPressed: () {
-                          // Navigator.pushReplacementNamed(context, '/register');
+                          Navigator.pushReplacementNamed(context, '/register');
                         },
                       ),
                     ),

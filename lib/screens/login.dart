@@ -37,7 +37,16 @@ class _LoginState extends State<Login> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 15.0),
+                    Center(
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: Color(0xfff063057)
+                        )
+                      ),
+                    ),
+                    SizedBox(height: 25.0),
                     TextFormField(
                       controller: nickNameController,
                       validator: (value) => value.isEmpty ? "Please enter nickname" : null,
@@ -55,7 +64,23 @@ class _LoginState extends State<Login> {
                       decoration: buildInputDecoration("Password", Icons.lock),
                     ),
                     SizedBox(height: 20.0),
-                    longButtons("Login", () => {})
+                    longButtons("Login", () => {}),
+                    SizedBox(height: 30.0),
+                    Center(
+                      child: FlatButton(
+                        padding: EdgeInsets.only(left: 0.0),
+                        child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xfff063057)
+                            )
+                        ),
+                        onPressed: () {
+                          // Navigator.pushReplacementNamed(context, '/register');
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

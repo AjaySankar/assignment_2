@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text("InstaPost"),
-          ),
+        ),
         body: Login()
       ),
       routes: {

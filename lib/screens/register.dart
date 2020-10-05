@@ -42,6 +42,9 @@ class _RegisterState extends State<Register> {
 
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              title: Text("InstaPost"),
+            ),
             body: Center(
               child: SingleChildScrollView(
                 child: Container(

@@ -11,9 +11,10 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final formKey = new GlobalKey<FormState>();
 
-  String _userName, _password, _confirmPassword, _nickName, _email;
+  String _firstName, _lastName, _password, _confirmPassword, _nickName, _email;
   TextEditingController nickNameController = TextEditingController(text: '');
-  TextEditingController userNameController = TextEditingController(text: '');
+  TextEditingController firstNameController = TextEditingController(text: '');
+  TextEditingController lastNameController = TextEditingController(text: '');
   TextEditingController passwordController = TextEditingController(text: '');
   TextEditingController confirmPasswordController = TextEditingController(text: '');
   TextEditingController emailController = TextEditingController(text: '');
@@ -22,8 +23,9 @@ class _RegisterState extends State<Register> {
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
-    userNameController.dispose();
+    firstNameController.dispose();
     nickNameController.dispose();
+    lastNameController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     emailController.dispose();
@@ -36,6 +38,7 @@ class _RegisterState extends State<Register> {
     var register = () {
       final form = formKey.currentState;
       if (form.validate()) {
+        form.save();
         print("All good");
       }
     };
@@ -66,11 +69,18 @@ class _RegisterState extends State<Register> {
                             SizedBox(height: 25.0),
                             TextFormField(
                               autofocus: false,
-                              validator: (value) => value.isEmpty ? "Please enter name" : null,
-                              onSaved: (value) => setState(() { _userName = userNameController.text; }),
+                              validator: (value) => value.isEmpty ? "Please enter first name" : null,
+                              onSaved: (value) => setState(() { _firstName = firstNameController.text; }),
                               decoration: buildInputDecoration("Name", Icons.account_circle),
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 10.0),
+                            TextFormField(
+                              autofocus: false,
+                              validator: (value) => value.isEmpty ? "Please enter last name" : null,
+                              onSaved: (value) => setState(() { _lastName = lastNameController.text; }),
+                              decoration: buildInputDecoration("Last Name", Icons.account_circle),
+                            ),
+                            SizedBox(height: 10.0),
                             TextFormField(
                               controller: nickNameController,
                               validator: (value) => value.isEmpty ? "Please enter nickname" : null,
@@ -78,7 +88,7 @@ class _RegisterState extends State<Register> {
                               onSaved: (value) => setState(() { _nickName = nickNameController.text; }),
                               decoration: buildInputDecoration("Nick Name", Icons.account_circle),
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 10.0),
                             TextFormField(
                               controller: passwordController,
                               autofocus: false,
@@ -87,7 +97,7 @@ class _RegisterState extends State<Register> {
                               onSaved: (value) => setState(() { _password = passwordController.text; }),
                               decoration: buildInputDecoration("Password", Icons.lock),
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 10.0),
                             TextFormField(
                               controller: emailController,
                               autofocus: false,

@@ -12,6 +12,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // Hack to show snack bar -> https://bit.ly/2SslerY
   Status _registeredInStatus = Status.NotRegistered;
   Auth authHandle;
 
@@ -49,12 +50,23 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
 
+    var showSnackBar = (text) => {
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: Text('${text}'),
+            duration: Duration(seconds: 3),
+          )
+      )
+    };
+
     var register = () {
       final form = formKey.currentState;
       if (form.validate()) {
         form.save();
         authHandle.registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) {
-          print(response);
+          if(!response['status']) {
+            showSnackBar(response['message']);
+          }
         });
       }
     };
@@ -63,12 +75,13 @@ class _RegisterState extends State<Register> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         CircularProgressIndicator(),
-        Text(" Registering ... Please wait")
+        Text(" Registering... Please wait")
       ],
     );
 
     return SafeArea(
         child: Scaffold(
+            key: _scaffoldKey,
             appBar: AppBar(
               title: Text("InstaPost"),
             ),
@@ -134,7 +147,7 @@ class _RegisterState extends State<Register> {
                             SizedBox(height: 20.0),
                             _registeredInStatus == Status.Registering
                                 ? loading
-                                : longButtons("Register", register)
+                                : longButtons("Register", register),
                           ],
                         )
                     )

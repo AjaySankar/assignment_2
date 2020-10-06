@@ -4,6 +4,7 @@ import 'package:assignment_2/utils/login_register_buttons.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/auth/auth.dart';
 import 'package:assignment_2/utils/registration_states.dart';
+import 'package:assignment_2/user/user.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -65,7 +66,17 @@ class _RegisterState extends State<Register> {
         form.save();
         authHandle.registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) {
           if(!response['status']) {
-            showSnackBar(response['message']);
+            showSnackBar(response['message']??'Failed to register!!');
+          }
+          else {
+            User().setUserProfile({
+              "firstName": _firstName,
+              "lastName": _lastName,
+              "nickname": _nickName,
+              "email": _email,
+              "password": _password
+            });
+            Navigator.pushReplacementNamed(context, '/dashboard');
           }
         });
       }

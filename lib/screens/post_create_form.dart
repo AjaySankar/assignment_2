@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
+import 'package:assignment_2/utils/input_decoration.dart';
 
 enum Status {
   PostNotCreated,
@@ -48,9 +49,15 @@ class _PostFormState extends State<PostForm> {
                 Container(
                   margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                   child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: "Say something..",
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+                    ),
                     controller: postDescriptionController,
+                    validator: validatePost,
+                    onSaved: (value) => setState(() { _postDescription = postDescriptionController.text; }),
                     keyboardType: TextInputType.multiline,
-                    maxLines: 10,
+                    maxLines: 5,
                     maxLength: 144,
                     style: TextStyle(fontSize: 20.0),
                   ),

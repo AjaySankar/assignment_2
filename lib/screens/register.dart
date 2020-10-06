@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/input_decoration.dart';
 import 'package:assignment_2/utils/login_register_buttons.dart';
 import 'package:assignment_2/utils/validators.dart';
+import 'package:assignment_2/auth/auth.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final formKey = new GlobalKey<FormState>();
 
-  String _firstName, _lastName, _password, _confirmPassword, _nickName, _email;
+  String _firstName, _lastName, _password, _nickName, _email;
   TextEditingController nickNameController = TextEditingController(text: '');
   TextEditingController firstNameController = TextEditingController(text: '');
   TextEditingController lastNameController = TextEditingController(text: '');
@@ -40,6 +41,9 @@ class _RegisterState extends State<Register> {
       if (form.validate()) {
         form.save();
         print("All good");
+        registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) {
+          print(response);
+        });
       }
     };
 
@@ -68,6 +72,7 @@ class _RegisterState extends State<Register> {
                             ),
                             SizedBox(height: 25.0),
                             TextFormField(
+                              controller: firstNameController,
                               autofocus: false,
                               validator: (value) => value.isEmpty ? "Please enter first name" : null,
                               onSaved: (value) => setState(() { _firstName = firstNameController.text; }),
@@ -75,6 +80,7 @@ class _RegisterState extends State<Register> {
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
+                              controller: lastNameController,
                               autofocus: false,
                               validator: (value) => value.isEmpty ? "Please enter last name" : null,
                               onSaved: (value) => setState(() { _lastName = lastNameController.text; }),

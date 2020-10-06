@@ -3,6 +3,7 @@ import 'package:assignment_2/utils/input_decoration.dart';
 import 'package:assignment_2/utils/login_register_buttons.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/auth/auth.dart';
+import 'package:assignment_2/utils/registration_states.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -11,6 +12,18 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final formKey = new GlobalKey<FormState>();
+  Status _registeredInStatus = Status.NotRegistered;
+  Auth authHandle;
+
+  @override
+  void initState() {
+    authHandle = Auth((Status registrationState) {
+      setState(() {
+        _registeredInStatus = registrationState;
+      });
+    });
+    super.initState();
+  }
 
   String _firstName, _lastName, _password, _nickName, _email;
   TextEditingController nickNameController = TextEditingController(text: '');
@@ -40,12 +53,19 @@ class _RegisterState extends State<Register> {
       final form = formKey.currentState;
       if (form.validate()) {
         form.save();
-        print("All good");
-        registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) {
+        authHandle.registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) {
           print(response);
         });
       }
     };
+
+    var loading = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        CircularProgressIndicator(),
+        Text(" Registering ... Please wait")
+      ],
+    );
 
     return SafeArea(
         child: Scaffold(
@@ -112,7 +132,9 @@ class _RegisterState extends State<Register> {
                               decoration: buildInputDecoration("Email", Icons.email),
                             ),
                             SizedBox(height: 20.0),
-                            longButtons("Register", register)
+                            _registeredInStatus == Status.Registering
+                                ? loading
+                                : longButtons("Register", register)
                           ],
                         )
                     )

@@ -1,13 +1,20 @@
 class User {
   static final _user = User._internal();
-  static String _firstName = '', _lastName = '', _password = '', _nickName = '', _email = '';
+  String _firstName = '', _lastName = '', _password = '', _nickName = '', _email = '';
+
+  String get firstName => _firstName;
+  String get lastName => _lastName;
+  String get password => _password;
+  String get nickName => _nickName;
+  String get email => _email;
+
   factory User() {
     return _user;
   }
   User._internal() {
     // Singleton constructor
   }
-  static void setUserProfile(Map<String, String> userProfile) {
+  void setUserProfile(Map<String, String> userProfile) {
     _firstName = userProfile['firstName'];
     _lastName = userProfile['lastName'];
     _password = userProfile['password'];

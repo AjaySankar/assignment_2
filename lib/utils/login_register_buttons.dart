@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:assignment_2/utils/theme.dart';
 
 // From one of the buttons in flutter documentation - https://flutter.dev/docs/development/ui/widgets/material#Buttons
 
 MaterialButton longButtons(String title, Function fun,
-    {Color color: const Color(0xfff063057), Color textColor: Colors.white}) {
+    {Color color: const Color(0xfff4267B2), Color textColor: Colors.white}) {
   return MaterialButton(
     onPressed: fun,
     textColor: textColor,

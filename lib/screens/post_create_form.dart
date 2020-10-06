@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/validators.dart';
+import 'package:assignment_2/utils/theme.dart';
 
 enum Status {
   PostNotCreated,
@@ -39,7 +40,7 @@ class _PostFormState extends State<PostForm> {
                     "Create Post",
                     style: TextStyle(
                         fontSize: 40,
-                        color: Color(0xfff4267B2)
+                        color: getThemeColor()
                     )
                   ),
                 ),

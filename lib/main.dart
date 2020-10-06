@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/login.dart';
 import 'package:assignment_2/screens/register.dart';
 import 'package:assignment_2/screens/dashboard.dart';
+import 'package:assignment_2/screens/post_create_form.dart';
+import 'package:assignment_2/utils/theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,8 +34,9 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text("InstaPost"),
+          backgroundColor: getThemeColor(),
         ),
-        body: Login()
+        body: PostForm()
       ),
       routes: {
         '/login': (context) => Login(),

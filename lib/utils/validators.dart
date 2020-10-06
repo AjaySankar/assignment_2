@@ -11,3 +11,13 @@ String validateEmail(String value) {
   }
   return _msg;
 }
+
+String validatePassword(String value) {
+  String _msg;
+  if (value.isEmpty) {
+    _msg = "Your password is required";
+  } else if (value.length < 3) {
+    _msg = "Password should be at least 3 characters";
+  }
+  return _msg;
+}

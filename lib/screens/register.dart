@@ -83,7 +83,7 @@ class _RegisterState extends State<Register> {
                               controller: passwordController,
                               autofocus: false,
                               obscureText: true,
-                              validator: (value) => value.isEmpty ? "Please enter password" : null,
+                              validator: validatePassword,
                               onSaved: (value) => setState(() { _password = passwordController.text; }),
                               decoration: buildInputDecoration("Password", Icons.lock),
                             ),

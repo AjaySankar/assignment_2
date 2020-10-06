@@ -1,5 +1,7 @@
 // Reference - https://medium.com/@aslamanver/email-validation-in-dart-flutter-e1f3264ab59d
 
+const int MIN_HASH_TAG_LEN = 2; // Including # symbol
+
 String validateEmail(String value) {
   String _msg;
   RegExp regex = new RegExp(
@@ -20,4 +22,30 @@ String validatePassword(String value) {
     _msg = "Password should be at least 3 characters";
   }
   return _msg;
+}
+
+String validatePost(String post) {
+  String _msg;
+  if(post.isEmpty) {
+    _msg = "Post description is required";
+  }
+  List<String> invalidHashTags = getInValidHashTags(getHashTags(post));
+  if(invalidHashTags.length > 0) {
+    _msg = "Please remove empty hashtags";
+  }
+  return _msg;
+}
+
+
+List<String> getHashTags(String post) {
+  RegExp exp = new RegExp(r"\B#\w*");
+  List<String> hashTags = [];
+  exp.allMatches(post).forEach((match){
+    hashTags.add(match.group(0));
+  });
+  return hashTags;
+}
+
+List<String> getInValidHashTags(List<String> hashTags) {
+  return hashTags.where((element) => element.length < MIN_HASH_TAG_LEN).toList();
 }

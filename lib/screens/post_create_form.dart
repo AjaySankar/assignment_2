@@ -10,13 +10,15 @@ enum Status {
   PostUploadFailed
 }
 
+const int MAX_POST_LENGTH = 144;
+
 class PostForm extends StatefulWidget {
   @override
   _PostFormState createState() => _PostFormState();
 }
 
 class _PostFormState extends State<PostForm> {
-  final formKey = new GlobalKey<FormState>();
+  final _postFormKey = new GlobalKey<FormState>();
   String _postDescription;
   TextEditingController postDescriptionController = TextEditingController(text: '');
 
@@ -28,11 +30,21 @@ class _PostFormState extends State<PostForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    var uploadPost = () {
+      final form = _postFormKey.currentState;
+      if (form.validate()) {
+        form.save();
+        print("All good");
+        print(_postDescription);
+      }
+    };
+
     return SafeArea(
       child: Center(
         child: SingleChildScrollView(
           child: Form(
-            key: formKey,
+            key: _postFormKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -58,7 +70,7 @@ class _PostFormState extends State<PostForm> {
                     onSaved: (value) => setState(() { _postDescription = postDescriptionController.text; }),
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
-                    maxLength: 144,
+                    maxLength: MAX_POST_LENGTH,
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
@@ -71,7 +83,7 @@ class _PostFormState extends State<PostForm> {
                   child: IconButton(
                     icon: Icon(Icons.arrow_forward_ios),
                     color: Colors.white,
-                    onPressed: () {},
+                    onPressed: uploadPost,
                   ),
                 )
               ],

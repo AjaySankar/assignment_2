@@ -3,7 +3,7 @@ import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/insta_post_requests/addPost.dart';
-import 'package:assignment_2/screens/addImagetoPost.dart';
+import 'package:assignment_2/insta_post_requests/addImageToPost.dart';
 
 const int MAX_POST_LENGTH = 144;
 
@@ -58,12 +58,10 @@ class _PostFormState extends State<PostForm> {
             showSnackBar(response['message']??'Failed to register!!', context);
           }
           else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UploadImage(response['body']['id']),
-              ),
-            );
+            // Post created successfully. Now reset the state to upload image
+            setState(() {
+              _createPostStatus = Status.RequestInProcess;
+            });
           }
         });
       }

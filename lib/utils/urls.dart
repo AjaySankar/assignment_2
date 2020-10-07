@@ -5,4 +5,5 @@ class Urls {
   static const String uploadBaseURL = "https://bismarck.sdsu.edu/api/instapost-upload";
   static const String register = uploadBaseURL + "/newuser";
   static const String addPost = uploadBaseURL + "/post";
+  static const String uploadImage = uploadBaseURL + "/image";
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
+import 'package:assignment_2/utils/image_io.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/insta_post_requests/addPost.dart';
 import 'package:assignment_2/insta_post_requests/addImageToPost.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 const int MAX_POST_LENGTH = 144;
 
@@ -21,25 +23,31 @@ class _PostFormState extends State<PostForm> {
   TextEditingController postDescriptionController = TextEditingController(text: '');
   Status _createPostStatus = Status.NotRequested;
   AddInstaPost addPostHandle;
+  AddImageToPost addImageToPostHandle;
   File _image;
   final picker = ImagePicker();
+  Uint8List _encodedImage;
 
   Future getImage() async {
     File image = await  ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50
     );
+    Uint8List encodedImage = image.readAsBytesSync();
     setState(() {
       _image = image;
+      _encodedImage = encodedImage;
     });
   }
 
   @override
   void initState() {
-    addPostHandle = AddInstaPost((Status registrationState) {
+    Function setRequestStateCallBack = (Status requestState) {
       setState(() {
-        _createPostStatus = registrationState;
+        _createPostStatus = requestState;
       });
-    });
+    };
+    addPostHandle = AddInstaPost(setRequestStateCallBack);
+    addImageToPostHandle = AddImageToPost(setRequestStateCallBack);
     super.initState();
   }
 
@@ -98,6 +106,16 @@ class _PostFormState extends State<PostForm> {
             // Post created successfully. Now reset the state to indicate upload image is in process.
             setState(() {
               _createPostStatus = Status.RequestInProcess;
+            });
+            String imageAsString = readImageAsBase64Encode(_image);
+            addImageToPostHandle.uploadImage(imageAsString, response['body']['id']).then((value) {
+              print(response);
+              if(!response['status']) {
+                showSnackBar(response['message']??'Failed to register!!', context);
+              }
+              else{
+                print("Image Upload successful");
+              }
             });
           }
         });

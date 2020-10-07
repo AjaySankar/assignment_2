@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
-import 'package:assignment_2/utils/registration_states.dart';
+import 'package:assignment_2/utils/request_states.dart';
 
 class Auth {
   Function _setRquestorState = () => {};
@@ -17,8 +17,8 @@ class Auth {
       "email": email,
       "password": password
     };
-    _setRquestorState(Status.Registering);
-    await Future.delayed(Duration(seconds: 2));
+    _setRquestorState(Status.RequestInProcess);
+    // await Future.delayed(Duration(seconds: 2));
     return await post(Urls.register,
         body: json.encode(registrationData),
         headers: {'Content-Type': 'application/json'})
@@ -31,14 +31,14 @@ class Auth {
     var result;
     if (response.statusCode == 200 && responseData["result"] == "success") {
       // Save user model
-      _setRquestorState(Status.Registered);
+      _setRquestorState(Status.RequestSuccessful);
       result = {
         'status': true,
         'message': 'Successfully registered'
       };
     }
     else {
-      _setRquestorState(Status.RegistrationFailed);
+      _setRquestorState(Status.RequestFailed);
       result = {
         'status': false,
         'message': responseData['errors']
@@ -48,7 +48,7 @@ class Auth {
   }
 
   onError(error) {
-    _setRquestorState(Status.RegistrationFailed);
+    _setRquestorState(Status.RequestFailed);
     return {
       'status': false,
       'message': 'Unsuccessful Request - ${error}',

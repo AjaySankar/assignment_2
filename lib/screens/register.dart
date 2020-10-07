@@ -3,7 +3,7 @@ import 'package:assignment_2/utils/input_decoration.dart';
 import 'package:assignment_2/utils/login_register_buttons.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/auth/auth.dart';
-import 'package:assignment_2/utils/registration_states.dart';
+import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/user/user.dart';
 
 class Register extends StatefulWidget {
@@ -14,7 +14,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // Hack to show snack bar -> https://bit.ly/2SslerY
-  Status _registeredInStatus = Status.NotRegistered;
+  Status _registeredInStatus = Status.NotRequested;
   Auth authHandle;
 
   @override
@@ -156,7 +156,7 @@ class _RegisterState extends State<Register> {
                               decoration: buildInputDecoration("Email", Icons.email),
                             ),
                             SizedBox(height: 20.0),
-                            _registeredInStatus == Status.Registering
+                            _registeredInStatus == Status.RequestInProcess
                                 ? loading
                                 : longButtons("Register", register),
                           ],

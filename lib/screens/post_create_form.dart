@@ -200,7 +200,7 @@ class _PostFormState extends State<PostForm> {
                       width: 100,
                       height: 100,
                       child: Icon(
-                        Icons.camera_alt,
+                        Icons.add_photo_alternate,
                         color: Colors.grey[800],
                       ),
                     ),
@@ -216,9 +216,10 @@ class _PostFormState extends State<PostForm> {
                     shape: CircleBorder(),
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
+                    icon: Icon(Icons.file_upload),
                     color: Colors.white,
                     onPressed: uploadPost,
+                    tooltip: "Upload post",
                   ),
                 )
               ],

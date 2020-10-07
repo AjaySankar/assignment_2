@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
-import 'package:assignment_2/utils/input_decoration.dart';
-
-enum Status {
-  PostNotCreated,
-  UploadingPost,
-  PostUploadSuccess,
-  PostUploadFailed
-}
+import 'package:assignment_2/utils/request_states.dart';
+import 'package:assignment_2/insta_post_requests/addPost.dart';
 
 const int MAX_POST_LENGTH = 144;
 
@@ -21,6 +15,18 @@ class _PostFormState extends State<PostForm> {
   final _postFormKey = new GlobalKey<FormState>();
   String _postDescription;
   TextEditingController postDescriptionController = TextEditingController(text: '');
+  Status _createPostStatus = Status.NotRequested;
+  AddInstaPost addPostHandle;
+
+  @override
+  void initState() {
+    addPostHandle = AddInstaPost((Status registrationState) {
+      setState(() {
+        _createPostStatus = registrationState;
+      });
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -36,7 +42,23 @@ class _PostFormState extends State<PostForm> {
       if (form.validate()) {
         form.save();
         print("All good");
-        print(_postDescription);
+        List<String> hashTags = getHashTags(_postDescription);
+        addPostHandle.createInstaPost(_postDescription, hashTags).then((response) {
+          print(response);
+          if(!response['status']) {
+            // showSnackBar(response['message']??'Failed to register!!');
+          }
+          else {
+            // User().setUserProfile({
+            //   "firstName": _firstName,
+            //   "lastName": _lastName,
+            //   "nickname": _nickName,
+            //   "email": _email,
+            //   "password": _password
+            // });
+            // Navigator.pushReplacementNamed(context, '/dashboard');
+          }
+        });
       }
     };
 
@@ -62,7 +84,7 @@ class _PostFormState extends State<PostForm> {
                   margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: "Say something..",
+                      labelText: "Say something with hashtags..",
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
                     ),
                     controller: postDescriptionController,

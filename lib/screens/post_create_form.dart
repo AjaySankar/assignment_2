@@ -4,6 +4,9 @@ import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/insta_post_requests/addPost.dart';
 import 'package:assignment_2/insta_post_requests/addImageToPost.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'dart:io';
 
 const int MAX_POST_LENGTH = 144;
 
@@ -18,6 +21,17 @@ class _PostFormState extends State<PostForm> {
   TextEditingController postDescriptionController = TextEditingController(text: '');
   Status _createPostStatus = Status.NotRequested;
   AddInstaPost addPostHandle;
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    File image = await  ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50
+    );
+    setState(() {
+      _image = image;
+    });
+  }
 
   @override
   void initState() {
@@ -44,6 +58,29 @@ class _PostFormState extends State<PostForm> {
     )
   };
 
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        getImage();
+                        Navigator.of(context).pop();
+                      }),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -58,7 +95,7 @@ class _PostFormState extends State<PostForm> {
             showSnackBar(response['message']??'Failed to register!!', context);
           }
           else {
-            // Post created successfully. Now reset the state to upload image
+            // Post created successfully. Now reset the state to indicate upload image is in process.
             setState(() {
               _createPostStatus = Status.RequestInProcess;
             });
@@ -101,7 +138,35 @@ class _PostFormState extends State<PostForm> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      _showPicker(context);
+                    },
+                    child: _image != null
+                        ? ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.file(
+                        _image,
+                        width: 200,
+                        height: 200,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )
+                        : Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(15)),
+                      width: 100,
+                      height: 100,
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                  )
+                ),
+                SizedBox(height: 30.0),
                 Ink(
                   decoration: const ShapeDecoration(
                     color: const Color(0xfff4267B2),

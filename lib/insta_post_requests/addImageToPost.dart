@@ -25,7 +25,7 @@ class AddImageToPost extends InstaPostRequest {
     };
     setRequestInProgressState();
     // await Future.delayed(Duration(seconds: 2));
-    return await post(Urls.addPost,
+    return await post(Urls.uploadImage,
         body: json.encode(postData),
         headers: {'Content-Type': 'application/json'})
         .then(onValue)

@@ -27,7 +27,6 @@ class _PostFormState extends State<PostForm> {
   AddImageToPost addImageToPostHandle;
   File _image;
   final picker = ImagePicker();
-  Uint8List _encodedImage;
 
   Future getImage() async {
     File image = await  ImagePicker.pickImage(
@@ -36,7 +35,6 @@ class _PostFormState extends State<PostForm> {
     Uint8List encodedImage = image.readAsBytesSync();
     setState(() {
       _image = image;
-      _encodedImage = encodedImage;
     });
   }
 

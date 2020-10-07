@@ -3,6 +3,7 @@ import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/insta_post_requests/addPost.dart';
+import 'package:assignment_2/screens/addImagetoPost.dart';
 
 const int MAX_POST_LENGTH = 144;
 
@@ -52,20 +53,19 @@ class _PostFormState extends State<PostForm> {
         form.save();
         print("All good");
         List<String> hashTags = getHashTags(_postDescription);
-        addPostHandle.createInstaPost(_postDescription, hashTags).then((response) {
+        addPostHandle.createInstaPost(_postDescription, hashTags).then((Map<String, dynamic> response) {
           print(response);
           if(!response['status']) {
             showSnackBar(response['message']??'Failed to register!!', context);
           }
           else {
-            // User().setUserProfile({
-            //   "firstName": _firstName,
-            //   "lastName": _lastName,
-            //   "nickname": _nickName,
-            //   "email": _email,
-            //   "password": _password
-            // });
-            // Navigator.pushReplacementNamed(context, '/dashboard');
+            print("Success");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UploadImage(response['body']['id']),
+              ),
+            );
           }
         });
       }
@@ -90,7 +90,7 @@ class _PostFormState extends State<PostForm> {
                 ),
                 SizedBox(height: 25.0),
                 Container(
-                  margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: TextFormField(
                     decoration: InputDecoration(
                       labelText: "Say something with hashtags..",

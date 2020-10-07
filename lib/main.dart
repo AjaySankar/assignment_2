@@ -4,6 +4,7 @@ import 'package:assignment_2/screens/register.dart';
 import 'package:assignment_2/screens/dashboard.dart';
 import 'package:assignment_2/screens/post_create_form.dart';
 import 'package:assignment_2/utils/theme.dart';
+import 'package:assignment_2/screens/insta_post.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           title: Text("InstaPost"),
           backgroundColor: getThemeColor(),
         ),
-        body: PostForm()
+        body: InstaPost(1286)
       ),
       routes: {
         '/login': (context) => Login(),

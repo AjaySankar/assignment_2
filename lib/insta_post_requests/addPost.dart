@@ -18,7 +18,7 @@ class AddInstaPost extends InstaPostRequest {
     };
     setRequestInProgressState();
     await Future.delayed(Duration(seconds: 2));
-    return await post(Urls.register,
+    return await post(Urls.addPost,
         body: json.encode(postData),
         headers: {'Content-Type': 'application/json'})
         .then(onValue)

@@ -10,6 +10,13 @@ class AddInstaPost extends InstaPostRequest {
 
   Future<Map<String, dynamic>> createInstaPost(String postDescription, List<String> hashTags) async {
     User user = User();
+    user.setUserProfile({
+      "firstName": "Test",
+      "lastName": "User",
+      "nickname": "ajaytest",
+      "email": "ajaytest@gmail.com",
+      "password": "testuser"
+    });
     final Map<String, dynamic> postData = {
       "email": user.email,
       "password": user.password,
@@ -17,7 +24,7 @@ class AddInstaPost extends InstaPostRequest {
       "hashtags": hashTags
     };
     setRequestInProgressState();
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
     return await post(Urls.addPost,
         body: json.encode(postData),
         headers: {'Content-Type': 'application/json'})

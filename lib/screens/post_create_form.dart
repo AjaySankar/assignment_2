@@ -22,6 +22,7 @@ class _PostFormState extends State<PostForm> {
   String _postDescription;
   TextEditingController postDescriptionController = TextEditingController(text: '');
   Status _createPostStatus = Status.NotRequested;
+  Status _uploadPostImageStatus = Status.NotRequested;
   AddInstaPost addPostHandle;
   AddImageToPost addImageToPostHandle;
   File _image;
@@ -46,8 +47,13 @@ class _PostFormState extends State<PostForm> {
         _createPostStatus = requestState;
       });
     };
+    Function setUploadImageStateCallBack = (Status requestState) {
+      setState(() {
+        _uploadPostImageStatus = requestState;
+      });
+    };
     addPostHandle = AddInstaPost(setRequestStateCallBack);
-    addImageToPostHandle = AddImageToPost(setRequestStateCallBack);
+    addImageToPostHandle = AddImageToPost(setUploadImageStateCallBack);
     super.initState();
   }
 
@@ -92,6 +98,25 @@ class _PostFormState extends State<PostForm> {
   @override
   Widget build(BuildContext context) {
 
+    var getLoadingText = () {
+      String _loadingMsg = '';
+      if(_createPostStatus == Status.RequestInProcess) {
+        _loadingMsg = 'Creating Post...';
+      }
+      if(_uploadPostImageStatus == Status.RequestInProcess) {
+        _loadingMsg = 'Uploading Image...';
+      }
+      return _loadingMsg;
+    };
+
+    var loading = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        CircularProgressIndicator(),
+        Text(getLoadingText())
+      ],
+    );
+
     var uploadPost = () {
       final form = _postFormKey.currentState;
       if (form.validate()) {
@@ -103,10 +128,7 @@ class _PostFormState extends State<PostForm> {
             showSnackBar(response['message']??'Failed to register!!', context);
           }
           else {
-            // Post created successfully. Now reset the state to indicate upload image is in process.
-            setState(() {
-              _createPostStatus = Status.RequestInProcess;
-            });
+            // Post created successfully.
             String imageAsString = readImageAsBase64Encode(_image);
             addImageToPostHandle.uploadImage(imageAsString, response['body']['id']).then((value) {
               print(response);
@@ -184,7 +206,10 @@ class _PostFormState extends State<PostForm> {
                     ),
                   )
                 ),
-                SizedBox(height: 30.0),
+                SizedBox(height: 20.0),
+                _createPostStatus == Status.RequestInProcess
+                    || _uploadPostImageStatus == Status.RequestInProcess
+                    ? loading :
                 Ink(
                   decoration: const ShapeDecoration(
                     color: const Color(0xfff4267B2),

@@ -26,11 +26,15 @@ String validatePassword(String value) {
 
 String validatePost(String post) {
   String _msg;
+  List<String> hashTags = getHashTags(post);
+  List<String> invalidHashTags = getInValidHashTags(getHashTags(post));
   if(post.isEmpty) {
     _msg = "Post description is required";
   }
-  List<String> invalidHashTags = getInValidHashTags(getHashTags(post));
-  if(invalidHashTags.length > 0) {
+  else if(hashTags.length == 0) {
+    _msg = "Please add some hashtags";
+  }
+  else if(invalidHashTags.length > 0) {
     _msg = "Please remove empty hashtags";
   }
   return _msg;

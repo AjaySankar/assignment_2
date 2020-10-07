@@ -19,7 +19,8 @@ class InstaPostRequest {
       _setRquestorState(Status.RequestSuccessful);
       result = {
         'status': true,
-        'message': 'Successfully registered'
+        'message': 'Successfully registered',
+        'body': responseData
       };
     }
     else {

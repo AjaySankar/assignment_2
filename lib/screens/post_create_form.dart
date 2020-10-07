@@ -34,6 +34,15 @@ class _PostFormState extends State<PostForm> {
     super.dispose();
   }
 
+  var showSnackBar = (text, context) => {
+    Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${text}'),
+          duration: Duration(seconds: 3),
+        )
+    )
+  };
+
   @override
   Widget build(BuildContext context) {
 
@@ -46,7 +55,7 @@ class _PostFormState extends State<PostForm> {
         addPostHandle.createInstaPost(_postDescription, hashTags).then((response) {
           print(response);
           if(!response['status']) {
-            // showSnackBar(response['message']??'Failed to register!!');
+            showSnackBar(response['message']??'Failed to register!!', context);
           }
           else {
             // User().setUserProfile({

@@ -51,7 +51,6 @@ class _PostFormState extends State<PostForm> {
       final form = _postFormKey.currentState;
       if (form.validate()) {
         form.save();
-        print("All good");
         List<String> hashTags = getHashTags(_postDescription);
         addPostHandle.createInstaPost(_postDescription, hashTags).then((Map<String, dynamic> response) {
           print(response);
@@ -59,7 +58,6 @@ class _PostFormState extends State<PostForm> {
             showSnackBar(response['message']??'Failed to register!!', context);
           }
           else {
-            print("Success");
             Navigator.push(
               context,
               MaterialPageRoute(

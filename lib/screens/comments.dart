@@ -1,5 +1,8 @@
 import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:assignment_2/network/commentPost.dart';
+import 'package:assignment_2/utils/request_states.dart';
+import 'package:assignment_2/utils/snackBar.dart';
 
 class Comments extends StatefulWidget {
   final int postId;
@@ -12,22 +15,33 @@ class Comments extends StatefulWidget {
 class _CommentsState extends State<Comments> {
   final TextEditingController _commentController = TextEditingController();
   List<String> comments;
-
+  CommentPost commentPostHandle;
   @override
   void initState() {
     comments = widget.comments;
+    commentPostHandle = CommentPost((Status requestState) => {});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    var addComment = (comment) {
-      if(comment.length == 0) {
+    var addComment = (newComment) {
+      if(newComment.length == 0) {
         return;
       }
       _commentController.clear();
-      print(comment);
+      commentPostHandle.comment(widget.postId, newComment).then((Map<String, dynamic> response) {
+        print(response);
+        if(!response['status']) {
+          showSnackBar(response['message']??'Failed to rate post. Try again !!', context);
+        }
+        else {
+          setState(() {
+            comments = [...comments, newComment];
+          });
+        }
+      });
     };
 
     return Column(

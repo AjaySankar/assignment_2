@@ -10,4 +10,5 @@ class Urls {
   static const String getImage = queryBaseURL + "/image";
   static const String ratePost = uploadBaseURL + "/rating";
   static const String commentPost = uploadBaseURL + "/comment";
+  static const String getNickNames = queryBaseURL + "/nicknames";
 }

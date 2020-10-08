@@ -24,26 +24,22 @@ class _PostImageState extends State<PostImage> {
   Widget build(BuildContext context) {
 
     var placeHolderImage = (IconData icon, [Color color = Colors.blue]) {
-      return Expanded(
-        child: new FittedBox(
-          fit: BoxFit.fitHeight,
-          child: Icon(
-            icon,
-            color: color,
-            size: 60,
-          ),
-        )
+      return new FittedBox(
+        fit: BoxFit.fitHeight,
+        child: Icon(
+          icon,
+          color: color,
+          size: 60,
+        ),
       );
     };
 
     var getImageFromResponse = (response) {
       if(response['status']) {
         final base64EncodedImage = response['body']['image'];
-        return Expanded(
-          child: Image.memory(
-            base64Decode(base64EncodedImage),
-            fit: BoxFit.fitHeight,
-          ),
+        return Image.memory(
+          base64Decode(base64EncodedImage),
+          fit: BoxFit.fitHeight,
         );
       }
       return placeHolderImage(Icons.broken_image, Colors.red);
@@ -74,12 +70,6 @@ class _PostImageState extends State<PostImage> {
           }
           return image;
         }
-    );
-    return Expanded(
-      child: FittedBox(
-        fit: BoxFit.fitWidth, // otherwise the logo will be tiny
-        child: const FlutterLogo(),
-      ),
     );
   }
 }

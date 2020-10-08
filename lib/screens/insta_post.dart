@@ -33,7 +33,8 @@ class InstaPostState extends State<InstaPost> {
         return Column (
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            PostImage(widget.postId),
+            PostImage(post.image),
+            SizedBox(height: 10.0),
             RatingStars(widget.postId),
             SizedBox(height: 10.0),
             Text(post.description),
@@ -65,7 +66,7 @@ class InstaPostState extends State<InstaPost> {
       builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         Widget cardChild;
         if(snapshot.hasData) {
-          print(snapshot.data);
+          // print(snapshot.data);
           cardChild = getCardContents(snapshot.data);
         }
         else if(snapshot.hasError) {

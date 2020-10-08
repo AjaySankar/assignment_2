@@ -77,7 +77,7 @@ class CommentsList extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(Icons.comment),
         trailing: Text(comments.length.toString()),
-        title: Text("Comments"),
+        title: Text("Click to see comments"),
         children: List<Widget>.generate(
           comments.length,
               (int index) => SingleComment(comments[index]),

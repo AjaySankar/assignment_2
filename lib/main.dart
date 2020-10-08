@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/login.dart';
 import 'package:assignment_2/screens/register.dart';
 import 'package:assignment_2/screens/dashboard.dart';
-import 'package:assignment_2/screens/post_create_form.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/screens/insta_post.dart';
+import 'package:assignment_2/screens/feed.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,7 +37,9 @@ class MyApp extends StatelessWidget {
           title: Text("InstaPost"),
           backgroundColor: getThemeColor(),
         ),
-        body: InstaPost(1286)
+        body: Feed(
+          items: List<InstaPost>.generate(10, (i) => InstaPost(1289)),
+        )
       ),
       routes: {
         '/login': (context) => Login(),

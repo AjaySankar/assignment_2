@@ -30,13 +30,13 @@ class _CommentsState extends State<Comments> {
       if(newComment.length == 0) {
         return;
       }
-      _commentController.clear();
       commentPostHandle.comment(widget.postId, newComment).then((Map<String, dynamic> response) {
         print(response);
         if(!response['status']) {
-          showSnackBar(response['message']??'Failed to rate post. Try again !!', context);
+          showSnackBar(response['message']??'Failed to comment post. Try again !!', context);
         }
         else {
+          _commentController.clear();
           setState(() {
             comments = [...comments, newComment];
           });
@@ -54,12 +54,18 @@ class _CommentsState extends State<Comments> {
             decoration: InputDecoration(labelText: 'Write a comment...'),
             onFieldSubmitted: addComment,
           ),
-          trailing: FlatButton(
-            onPressed: (){addComment(_commentController.text);},
-            color: getThemeColor(),
-            textColor: Colors.white,
-            child: Text("Post"),
-          ),
+          trailing: Ink(
+            decoration: const ShapeDecoration(
+              color: const Color(0xfff4267B2),
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.add_comment),
+              color: Colors.white,
+              onPressed: (){addComment(_commentController.text);},
+              tooltip: "Upload post",
+            ),
+          )
         )
       ],
     );

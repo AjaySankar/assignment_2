@@ -8,4 +8,5 @@ class Urls {
   static const String uploadImage = uploadBaseURL + "/image";
   static const String getPost = queryBaseURL + "/post";
   static const String getImage = queryBaseURL + "/image";
+  static const String ratePost = uploadBaseURL + "/rating";
 }

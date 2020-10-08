@@ -131,10 +131,7 @@ class _PostFormState extends State<PostForm> {
             addImageToPostHandle.uploadImage(imageAsString, response['body']['id']).then((value) {
               print(response);
               if(!response['status']) {
-                showSnackBar(response['message']??'Failed to register!!', context);
-              }
-              else{
-                print("Image Upload successful");
+                showSnackBar(response['message']??'Failed to upload image!!', context);
               }
             });
           }

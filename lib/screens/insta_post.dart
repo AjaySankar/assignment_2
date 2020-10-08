@@ -40,7 +40,7 @@ class InstaPostState extends State<InstaPost> {
             Text(post.description),
             SizedBox(height: 10.0),
             HashTags(post.hashTags),
-            Comments(widget.postId)
+            Comments(widget.postId, post.comments)
           ],
         );
       }

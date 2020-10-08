@@ -74,9 +74,15 @@ class _NickName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        nickName,
-        style: Theme.of(context).textTheme.headline5,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: InkWell(
+            borderRadius: BorderRadius.circular(5),
+            child: Center(
+                child: Text(nickName)
+            ),
+            onTap: (){}
+        ),
       ),
     );
   }

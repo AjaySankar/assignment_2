@@ -6,4 +6,5 @@ class Urls {
   static const String register = uploadBaseURL + "/newuser";
   static const String addPost = uploadBaseURL + "/post";
   static const String uploadImage = uploadBaseURL + "/image";
+  static const String getPost = queryBaseURL + "/post";
 }

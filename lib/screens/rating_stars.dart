@@ -1,3 +1,5 @@
+//https://pub.dev/packages/smooth_star_rating
+
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:assignment_2/utils/theme.dart';

@@ -5,7 +5,7 @@ import 'package:assignment_2/screens/rating_stars.dart';
 import 'package:assignment_2/screens/hashtags.dart';
 import 'package:assignment_2/screens/comments.dart';
 import 'package:assignment_2/utils/request_states.dart';
-import 'package:assignment_2/insta_post_requests/getPost.dart';
+import 'package:assignment_2/network/getPost.dart';
 import 'package:assignment_2/post/post.dart';
 
 class InstaPost extends StatefulWidget {

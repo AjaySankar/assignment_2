@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
-import 'package:assignment_2/insta_post_requests/postRequestBase.dart';
+import 'package:assignment_2/network/postRequestBase.dart';
 import 'dart:convert';
 
 class GetPostImage extends InstaPostRequest {

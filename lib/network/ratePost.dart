@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
 import 'package:assignment_2/user/user.dart';
-import 'package:assignment_2/insta_post_requests/postRequestBase.dart';
+import 'package:assignment_2/network/postRequestBase.dart';
 
 class RatePost  extends InstaPostRequest {
   RatePost(Function _setRquestorState): super(_setRquestorState);

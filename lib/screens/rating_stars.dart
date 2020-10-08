@@ -1,6 +1,6 @@
 //https://pub.dev/packages/smooth_star_rating
 
-import 'package:assignment_2/insta_post_requests/ratePost.dart';
+import 'package:assignment_2/network/ratePost.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:assignment_2/utils/theme.dart';

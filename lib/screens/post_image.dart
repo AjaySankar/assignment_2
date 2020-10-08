@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:assignment_2/insta_post_requests/getPostImage.dart';
+import 'package:assignment_2/network/getPostImage.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/image_io.dart';
 

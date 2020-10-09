@@ -4,6 +4,7 @@ import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getFriendPosts.dart';
 import 'package:assignment_2/utils/circularProgress.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
+import 'package:assignment_2/utils/emptyFeedScreen.dart';
 import 'package:assignment_2/screens/insta_post.dart';
 import 'package:assignment_2/screens/feed.dart';
 
@@ -34,7 +35,7 @@ class _FriendFeedState extends State<FriendFeed> {
         List<int> postIds = [];
         response['body']['ids'].forEach((id) => postIds.add(id));
         if(postIds.length == 0){
-          // return no posts screen..
+        return getEmptyFeedScreen("Your friend's feed is empty");
         }
         return Feed(items: getInstaPosts(postIds));
       }

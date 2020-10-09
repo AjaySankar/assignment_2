@@ -36,11 +36,16 @@ class _PostImageState extends State<PostImage> {
 
     var getImageFromResponse = (response) {
       if(response['status']) {
-        final base64EncodedImage = response['body']['image'];
-        return Image.memory(
-          base64Decode(base64EncodedImage),
-          fit: BoxFit.fitHeight,
-        );
+        try {
+          final base64EncodedImage = response['body']['image'];
+          return Image.memory(
+            base64Decode(base64EncodedImage),
+            fit: BoxFit.fitHeight,
+          );
+        }
+        catch(e) {
+          return placeHolderImage(Icons.broken_image, Colors.red);
+        }
       }
       return placeHolderImage(Icons.broken_image, Colors.red);
     };

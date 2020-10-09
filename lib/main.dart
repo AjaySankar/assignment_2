@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           title: Text("InstaPost"),
           backgroundColor: getThemeColor(),
         ),
-        body: DashBoard()
+        body: Feed(items: [InstaPost(1289), InstaPost(1289), InstaPost(1289), InstaPost(1289), InstaPost(1289), InstaPost(1289)])
       ),
       routes: {
         '/login': (context) => Login(),

@@ -4,6 +4,7 @@ import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getNickNames.dart';
 import 'package:assignment_2/utils/circularProgress.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
+import 'package:assignment_2/screens/friend_feed.dart';
 
 final int NO_NAMES_PER_ROW = 3;
 
@@ -58,10 +59,20 @@ class _NickNameGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var goToFriendFeed = ([String nickName = '']) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FriendFeed(nickName),
+          )
+      );
+    };
+
     return GridView.count(
       crossAxisCount: NO_NAMES_PER_ROW,
       children: List.generate(nickNames.length, (index) {
-        return _NickName(nickNames[index]);
+        return _NickName(nickNames[index], goToFriendFeed);
       })
     );
   }
@@ -69,8 +80,8 @@ class _NickNameGrid extends StatelessWidget {
 
 class _NickName extends StatelessWidget {
   final String nickName;
-
-  _NickName(this.nickName);
+  final Function goToMyFeedPage;
+  _NickName(this.nickName, this.goToMyFeedPage);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +92,7 @@ class _NickName extends StatelessWidget {
           child: InkWell(
             splashColor: getThemeColor().withAlpha(30),
             onTap: () {
-              print('Card tapped.');
+              this.goToMyFeedPage(nickName);
             },
             child: Center(
                 child: Text(

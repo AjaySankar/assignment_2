@@ -1,3 +1,4 @@
+import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getNickNames.dart';
@@ -76,12 +77,18 @@ class _NickName extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: InkWell(
-            borderRadius: BorderRadius.circular(5),
+        child: Card(
+          child: InkWell(
+            splashColor: getThemeColor().withAlpha(30),
+            onTap: () {
+              print('Card tapped.');
+            },
             child: Center(
-                child: Text(nickName)
+                child: Text(
+                    nickName
+                )
             ),
-            onTap: (){}
+          ),
         ),
       ),
     );

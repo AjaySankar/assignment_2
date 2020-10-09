@@ -5,18 +5,18 @@ import 'package:http/http.dart';
 import 'package:assignment_2/utils/request_states.dart';
 
 class InstaPostRequest {
-  Function _setRquestorState = () => {};
-  InstaPostRequest(this._setRquestorState);
+  Function setRquestorState = () => {};
+  InstaPostRequest(this.setRquestorState);
 
   setRequestInProgressState() {
-    _setRquestorState(Status.RequestInProcess);
+    setRquestorState(Status.RequestInProcess);
   }
 
   Future<FutureOr> onValue(Response response) async {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;
     if (response.statusCode == 200 && responseData["result"] == "success") {
-      _setRquestorState(Status.RequestSuccessful);
+      setRquestorState(Status.RequestSuccessful);
       result = {
         'status': true,
         'message': 'Successfully registered',
@@ -24,7 +24,7 @@ class InstaPostRequest {
       };
     }
     else {
-      _setRquestorState(Status.RequestFailed);
+      setRquestorState(Status.RequestFailed);
       result = {
         'status': false,
         'message': responseData['errors']
@@ -34,7 +34,7 @@ class InstaPostRequest {
   }
 
   onError(error) {
-    _setRquestorState(Status.RequestFailed);
+    setRquestorState(Status.RequestFailed);
     return {
       'status': false,
       'message': 'Unsuccessful Request - ${error}',

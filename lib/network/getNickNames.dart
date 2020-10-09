@@ -20,6 +20,7 @@ class GetNickNames extends InstaPostRequest {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;
     if (response.statusCode == 200) {
+      setRquestorState(Status.RequestSuccessful);
       result = {
         'status': true,
         'message': 'Successfully registered',
@@ -27,6 +28,7 @@ class GetNickNames extends InstaPostRequest {
       };
     }
     else {
+      setRquestorState(Status.RequestFailed);
       result = {
         'status': false,
         'message': responseData['errors']

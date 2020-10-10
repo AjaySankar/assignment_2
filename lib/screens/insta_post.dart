@@ -2,7 +2,6 @@ import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/post_image.dart';
 import 'package:assignment_2/screens/rating_stars.dart';
-import 'package:assignment_2/screens/hashtags.dart';
 import 'package:assignment_2/screens/comments.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getPost.dart';
@@ -103,6 +102,30 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
           ),
         );
       },
+    );
+  }
+}
+
+
+class HashTags extends StatelessWidget {
+  HashTags(this.hashTags);
+  final List<String> hashTags;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+          children: [
+            ...hashTags.map((hashTag) {
+              return TextSpan(
+                  text: '${hashTag} ',
+                  style: TextStyle(
+                      color: getThemeColor()
+                  )
+              );
+            }).toList()
+          ]
+      ),
     );
   }
 }

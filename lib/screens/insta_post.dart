@@ -21,6 +21,7 @@ class InstaPostState extends State<InstaPost> {
 
   @override
   void initState() {
+    super.initState();
     getPostHandle = GetPost((Status requestState) => {});
   }
 

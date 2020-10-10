@@ -23,8 +23,8 @@ class _RatingStarsState extends State<RatingStars> {
 
   @override
   void initState() {
-    ratePostHandle = RatePost((Status requestState) => {});
     super.initState();
+    ratePostHandle = RatePost((Status requestState) => {});
   }
 
   @override

@@ -18,6 +18,7 @@ class _NickNamesState extends State<NickNames> {
 
   @override
   void initState() {
+    super.initState();
     getNickNamesHandle = GetNickNames((Status requestState) => {});
   }
 

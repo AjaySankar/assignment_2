@@ -40,6 +40,7 @@ class _PostFormState extends State<PostForm> {
 
   @override
   void initState() {
+    super.initState();
     Function setRequestStateCallBack = (Status requestState) {
       setState(() {
         _createPostStatus = requestState;
@@ -52,7 +53,6 @@ class _PostFormState extends State<PostForm> {
     };
     addPostHandle = AddInstaPost(setRequestStateCallBack);
     addImageToPostHandle = AddImageToPost(setUploadImageStateCallBack);
-    super.initState();
   }
 
   @override

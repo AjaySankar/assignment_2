@@ -18,9 +18,9 @@ class _CommentsState extends State<Comments> {
   CommentPost commentPostHandle;
   @override
   void initState() {
+    super.initState();
     comments = widget.comments;
     commentPostHandle = CommentPost((Status requestState) => {});
-    super.initState();
   }
 
   @override

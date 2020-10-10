@@ -17,6 +17,7 @@ class _PostImageState extends State<PostImage> {
 
   @override
   void initState() {
+    super.initState();
     getPostImageHandle = GetPostImage((Status requestState) => {});
   }
 

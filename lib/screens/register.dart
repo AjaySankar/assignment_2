@@ -19,12 +19,12 @@ class _RegisterState extends State<Register> {
 
   @override
   void initState() {
+    super.initState();
     authHandle = Auth((Status registrationState) {
       setState(() {
         _registeredInStatus = registrationState;
       });
     });
-    super.initState();
   }
 
   String _firstName, _lastName, _password, _nickName, _email;

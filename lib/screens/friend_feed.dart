@@ -20,6 +20,7 @@ class _FriendFeedState extends State<FriendFeed> {
 
   @override
   void initState() {
+    super.initState();
     getFriendPostsHandle = GetFriendPosts((Status requestState) => {});
   }
 

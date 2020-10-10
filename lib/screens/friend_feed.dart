@@ -2,7 +2,6 @@ import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getFriendPosts.dart';
-import 'package:assignment_2/utils/circularProgress.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/utils/emptyFeedScreen.dart';
 import 'package:assignment_2/screens/insta_post.dart';
@@ -62,7 +61,7 @@ class _FriendFeedState extends State<FriendFeed> {
           widget = getErrorScreen(snapshot.error);
         }
         else {
-          widget = getCircularProgress();
+          widget = CircularProgressIndicator();
         }
         return Scaffold(
           appBar: getAppBar(),

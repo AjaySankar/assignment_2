@@ -28,7 +28,7 @@ class _NickNamesState extends State<NickNames> {
       if(response['status']) {
         List<String> nickNames = [];
         response['body']['nicknames'].forEach((name) => nickNames.add(name.toString()));
-        return _NickNameGrid(nickNames.sublist(1, 20));
+        return _NickNameGrid(nickNames);
       }
       return getErrorScreen(response['message']);
     };

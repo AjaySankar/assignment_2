@@ -1,3 +1,4 @@
+import 'package:assignment_2/screens/nicknames.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/login.dart';
 import 'package:assignment_2/screens/register.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           title: Text("InstaPost"),
           backgroundColor: getThemeColor(),
         ),
-        body: Feed(items: [InstaPost(1289), InstaPost(1289), InstaPost(1289), InstaPost(1289), InstaPost(1289), InstaPost(1289)])
+        body: DashBoard()
       ),
       routes: {
         '/login': (context) => Login(),

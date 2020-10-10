@@ -55,7 +55,7 @@ class _PostImageState extends State<PostImage> {
       return placeHolderImage(Icons.image);
     }
 
-    Future<Map<String, dynamic>> _fetchPostImage = getPostImageHandle.getInstaPost(widget.imageId);
+    Future<Map<String, dynamic>> _fetchPostImage = getPostImageHandle.getInstaPostImage(widget.imageId);
     return FutureBuilder<Map<String, dynamic>>(
         future: _fetchPostImage,
         builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {

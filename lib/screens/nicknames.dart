@@ -2,54 +2,50 @@ import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getNickNames.dart';
-import 'package:assignment_2/utils/circularProgress.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/screens/friend_feed.dart';
 
 final int NO_NAMES_PER_ROW = 3;
 
 class NickNames extends StatefulWidget {
+  const NickNames({Key key}) : super(key: key);
+
   @override
   _NickNamesState createState() => _NickNamesState();
 }
 
-class _NickNamesState extends State<NickNames> {
-  GetNickNames getNickNamesHandle;
+class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixin<NickNames>{
+  List<String> nickNames = [];
+  Status _getNickNamesRequestState = Status.NotRequested;
+  Future<List<String>> _getNickNames() async {
+    // await Future.delayed(Duration(seconds: 2));
+    return await GetNickNames((Status requestState) => {
+      _getNickNamesRequestState = requestState
+    }).fetchNickNames();
+  }
+
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
+    _getNickNames().then((data) =>
+        setState(() {
+          nickNames = data;
+        }));
     super.initState();
-    getNickNamesHandle = GetNickNames((Status requestState) => {});
   }
 
   Widget build(BuildContext context) {
-
-    var buildNickNames = (response) {
-      if(response['status']) {
-        List<String> nickNames = [];
-        response['body']['nicknames'].forEach((name) => nickNames.add(name.toString()));
+    switch(_getNickNamesRequestState) {
+      case Status.RequestSuccessful:
         return _NickNameGrid(nickNames);
-      }
-      return getErrorScreen(response['message']);
+      case Status.RequestFailed:
+        return getErrorScreen('Failed to load nicknames');
+      default:
+      return Center(child: CircularProgressIndicator());
     };
-
-    Future<Map<String, dynamic>> _fetchNickNames = getNickNamesHandle.getNickNames();
-    return FutureBuilder<Map<String, dynamic>>(
-      future: _fetchNickNames,
-      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-        Widget widget;
-        if(snapshot.hasData) {
-          widget = buildNickNames(snapshot.data);
-        }
-        else if(snapshot.hasError) {
-          widget = getErrorScreen(snapshot.error);
-        }
-        else {
-          widget = getCircularProgress();
-        }
-        return widget;
-      },
-    );
   }
 }
 

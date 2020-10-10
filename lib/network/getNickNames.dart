@@ -8,7 +8,7 @@ import 'package:assignment_2/utils/request_states.dart';
 class GetNickNames extends InstaPostRequest {
   GetNickNames(Function _setRquestorState): super(_setRquestorState);
 
-  Future<Map<String, dynamic>> getNickNames() async {
+  Future<Map<String, dynamic>> _getNickNames() async {
     // await Future.delayed(Duration(seconds: 2));
     return await get('${Urls.getNickNames}')
         .then(onValue)
@@ -20,7 +20,6 @@ class GetNickNames extends InstaPostRequest {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;
     if (response.statusCode == 200) {
-      setRquestorState(Status.RequestSuccessful);
       result = {
         'status': true,
         'message': 'Successfully registered',
@@ -28,12 +27,25 @@ class GetNickNames extends InstaPostRequest {
       };
     }
     else {
-      setRquestorState(Status.RequestFailed);
       result = {
         'status': false,
         'message': responseData['errors']
       };
     }
     return result;
+  }
+
+  Future<List<String>> fetchNickNames() async {
+    Map response = await _getNickNames();
+    List<String> nickNames = [];
+    if(response['status']) {
+      setRquestorState(Status.RequestSuccessful);
+      response['body']['nicknames']
+          .forEach((name) => nickNames.add(name.toString()));
+    }
+    else {
+      setRquestorState(Status.RequestFailed);
+    }
+    return nickNames;
   }
 }

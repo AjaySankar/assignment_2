@@ -16,7 +16,7 @@ class InstaPost extends StatefulWidget {
   InstaPostState createState() => InstaPostState();
 }
 
-class InstaPostState extends State<InstaPost> {
+class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin {
   GetPost getPostHandle;
 
   @override
@@ -24,6 +24,9 @@ class InstaPostState extends State<InstaPost> {
     super.initState();
     getPostHandle = GetPost((Status requestState) => {});
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

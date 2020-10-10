@@ -1,19 +1,21 @@
 class Post {
 
-  List<String> comments = [];
-  int ratingsCount = 0;
-  List<String> hashTags = [];
-  String description = '';
-  int id = -1;
-  int image = -1;
+  List<String> comments;
+  int ratingsCount;
+  List<String> hashTags;
+  String description;
+  int id;
+  int image;
 
   Post(
-       {this.comments,
-        this.ratingsCount,
-        this.description,
-        this.id,
-        this.image,
-        this.hashTags}
+       {
+         this.comments = const [],
+        this.ratingsCount = 0,
+        this.description = 'Default description',
+        this.id = -1,
+        this.image = -1,
+        this.hashTags = const []
+       }
     );
 
   factory Post.fromJSON(Map postData) {

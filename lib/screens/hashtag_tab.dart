@@ -25,22 +25,49 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
   Future<int> _getHashTagCount() async {
     // await Future.delayed(Duration(seconds: 2));
     return await HashTagGetter((Status requestState) => {
-      _getHashTagCountRequestState = requestState
+      setState(() {
+        _getHashTagCountRequestState = requestState;
+      })
     }).fetchHashTagCount();
+  }
+
+  Future<List<String>> _getHashTags([int startIndex = 0, int requestedBatchSize = MAX_HASHTAG_BATCH_SIZE]) async {
+    return await HashTagGetter((Status requestState) {
+      setState(() {
+        _getHashTagsRequestedState = requestState;
+      });
+    }).fetchHashTags(startIndex, startIndex+requestedBatchSize);
+  }
+
+  void addMoreHashTags(List<String> fetchedHashTags) {
+    if(_getHashTagsRequestedState == Status.RequestSuccessful) {
+      setState(() {
+        hashTags = [...hashTags, ...fetchedHashTags];
+        startIndex = startIndex+MAX_HASHTAG_BATCH_SIZE;
+        _getHashTagsRequestedState = Status.NotRequested;
+      });
+    }
   }
 
   @override
   void initState() {
-    _getHashTagCount().then((data) =>
-        setState(() {
-          totalHashTagCount = data;
-        }));
+    _getHashTagCount().then((data) {
+      setState(() {
+        totalHashTagCount = data;
+      });
+      if(data > 0) {
+        _getHashTags(startIndex).then(addMoreHashTags);
+      }
+    });
     super.initState();
   }
 
   @override
   bool get wantKeepAlive => true;
 
+  void getMoreHashTags() {
+    _getHashTags(startIndex).then(addMoreHashTags);
+  }
   Widget build(BuildContext context) {
     return Center(
       child: Text("$totalHashTagCount"),

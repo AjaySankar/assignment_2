@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/network/getHashTags.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final int NO_HASHTAGS_PER_ROW = 3;
 const int MAX_HASHTAG_BATCH_SIZE = 10;
@@ -67,9 +68,42 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
   void getMoreHashTags() {
     _getHashTags(startIndex).then(addMoreHashTags);
   }
+
+  Widget getFAB() {
+    if(_getHashTagsRequestedState == Status.RequestInProcess) {
+      return FloatingActionButton(
+          backgroundColor: getThemeColor(),
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(getThemeColor()),
+            backgroundColor: Colors.white,
+          ),
+          onPressed: getMoreHashTags
+      );
+    }
+    return FloatingActionButton(
+      backgroundColor: getThemeColor(),
+      child: Icon(FontAwesomeIcons.getPocket),
+        onPressed: getMoreHashTags
+    );
+  }
+
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("$totalHashTagCount"),
+    return Scaffold(
+      body: Text(hashTags.join(',')),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          children: [
+            Spacer(),
+            Opacity(
+              opacity: 0.0,
+              child: IconButton(icon: Icon(Icons.search)),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: getFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

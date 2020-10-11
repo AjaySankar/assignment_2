@@ -28,6 +28,7 @@ class HashTagGetter extends InstaPostRequest {
     if(response['status']) {
       setRquestorState(Status.RequestSuccessful);
       response['body']['hashtags']
+          .where((hashTag) => hashTag.toString().length > 0)
           .forEach((name) => hashTags.add(name.toString()));
     }
     else {

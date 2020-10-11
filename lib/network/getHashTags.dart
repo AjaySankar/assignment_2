@@ -14,6 +14,26 @@ class HashTagGetter extends InstaPostRequest {
         .catchError(onError);
   }
 
+  Future<Map<String, dynamic>> _getHashTagBatch([int startIndex = 1, int endIndex = 10]) async {
+    return await get('${Urls.getHashTagsBatch}?start-index=${startIndex}&end-index=${endIndex}')
+        .then(onValue)
+        .catchError(onError);
+  }
+
+  Future<List<String>> fetchHashTags([int startIndex = 1, int endIndex = 10]) async {
+    Map response = await _getHashTagBatch(startIndex, endIndex);
+    List<String> hashTags = [];
+    if(response['status']) {
+      setRquestorState(Status.RequestSuccessful);
+      response['body']['hashtags']
+          .forEach((name) => hashTags.add(name.toString()));
+    }
+    else {
+      setRquestorState(Status.RequestFailed);
+    }
+    return hashTags;
+  }
+
   Future<FutureOr> onHashCountValue(Response response) async {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;

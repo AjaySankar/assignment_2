@@ -13,4 +13,5 @@ class Urls {
   static const String getNickNames = queryBaseURL + "/nicknames";
   static const String getFriendPostIds = queryBaseURL + "/nickname-post-ids";
   static const String getHashTagCount = queryBaseURL + "/hashtag-count";
+  static const String getHashTagsBatch = queryBaseURL + "/hashtags-batch";
 }

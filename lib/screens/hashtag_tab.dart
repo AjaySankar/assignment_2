@@ -5,6 +5,7 @@ import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/network/getHashTags.dart';
 
 final int NO_HASHTAGS_PER_ROW = 3;
+const int MAX_HASHTAG_BATCH_SIZE = 10;
 
 class HashTags extends StatefulWidget {
   const HashTags({Key key}) : super(key: key);
@@ -17,10 +18,8 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
   List<String> hashTags = [];
   Status _getHashTagCountRequestState = Status.NotRequested;
   Status _getHashTagsRequestedState = Status.NotRequested;
-  int totalHashTagCount = 0;
+  int totalHashTagCount;
   int startIndex = 0;
-  final int hashtagBatchSize = 10;
-
 
   Future<int> _getHashTagCount() async {
     // await Future.delayed(Duration(seconds: 2));

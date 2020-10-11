@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/network/getHashTags.dart';
+import 'package:assignment_2/screens/hashtag_feed.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const int MAX_HASHTAG_BATCH_SIZE = 20;
@@ -86,7 +87,16 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
     );
   }
 
-  Widget buildHashTags() {
+  var goToHashTagFeed = (BuildContext context, [String hashTag = '']) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HashTagFeed(hashTag),
+        )
+    );
+  };
+
+  Widget buildHashTags(BuildContext context) {
     return ListView.separated(
       itemCount: hashTags.length,
       itemBuilder: (context, index) {
@@ -96,7 +106,9 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
             child: const Icon(FontAwesomeIcons.hashtag),
           ),
           title: Text('${hashTags[index]}'),
-          onTap: () {}
+          onTap: () {
+            goToHashTagFeed(context, hashTags[index]);
+          }
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),
@@ -118,9 +130,9 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
     );
   }
 
-  Widget getBody() {
+  Widget getBody(BuildContext context) {
     if(_getHashTagCountRequestState == Status.RequestSuccessful) {
-      return buildHashTags();
+      return buildHashTags(context);
     }
     if(_getHashTagCountRequestState == Status.RequestFailed || _getHashTagsRequestedState == Status.RequestFailed) {
       return getErrorScreen('Failed to load hashtags');
@@ -130,7 +142,7 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: getBody(),
+      body: getBody(context),
       bottomNavigationBar: getBottonNavigationBar(),
       floatingActionButton: getFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

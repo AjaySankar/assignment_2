@@ -5,8 +5,7 @@ import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/network/getHashTags.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-final int NO_HASHTAGS_PER_ROW = 3;
-const int MAX_HASHTAG_BATCH_SIZE = 10;
+const int MAX_HASHTAG_BATCH_SIZE = 20;
 
 class HashTags extends StatefulWidget {
   const HashTags({Key key}) : super(key: key);
@@ -122,6 +121,9 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
   Widget getBody() {
     if(_getHashTagCountRequestState == Status.RequestSuccessful) {
       return buildHashTags();
+    }
+    if(_getHashTagCountRequestState == Status.RequestFailed || _getHashTagsRequestedState == Status.RequestFailed) {
+      return getErrorScreen('Failed to load hashtags');
     }
     return Center(child: CircularProgressIndicator());
   }

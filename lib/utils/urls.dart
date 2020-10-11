@@ -12,4 +12,5 @@ class Urls {
   static const String commentPost = uploadBaseURL + "/comment";
   static const String getNickNames = queryBaseURL + "/nicknames";
   static const String getFriendPostIds = queryBaseURL + "/nickname-post-ids";
+  static const String getHashTagCount = queryBaseURL + "/hashtag-count";
 }

@@ -87,21 +87,43 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
     );
   }
 
+  Widget buildHashTags() {
+    return ListView.builder(
+      itemCount: hashTags.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text('${hashTags[index]}'),
+        );
+      },
+    );
+  }
+
+  Widget getBottonNavigationBar() {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      child: Row(
+        children: [
+          Spacer(),
+          Opacity(
+            opacity: 0.0,
+            child: IconButton(icon: Icon(Icons.search)),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getBody() {
+    if(_getHashTagCountRequestState == Status.RequestSuccessful) {
+      return buildHashTags();
+    }
+    return Center(child: CircularProgressIndicator());
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(hashTags.join(',')),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          children: [
-            Spacer(),
-            Opacity(
-              opacity: 0.0,
-              child: IconButton(icon: Icon(Icons.search)),
-            )
-          ],
-        ),
-      ),
+      body: getBody(),
+      bottomNavigationBar: getBottonNavigationBar(),
       floatingActionButton: getFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

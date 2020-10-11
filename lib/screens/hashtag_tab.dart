@@ -88,13 +88,19 @@ class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<
   }
 
   Widget buildHashTags() {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: hashTags.length,
       itemBuilder: (context, index) {
         return ListTile(
+          leading: Container(
+            margin: const EdgeInsets.only(right: 20),
+            child: const Icon(FontAwesomeIcons.hashtag),
+          ),
           title: Text('${hashTags[index]}'),
+          onTap: () {}
         );
       },
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 

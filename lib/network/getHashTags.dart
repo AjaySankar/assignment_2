@@ -14,13 +14,15 @@ class HashTagGetter extends InstaPostRequest {
         .catchError(onError);
   }
 
-  Future<Map<String, dynamic>> _getHashTagBatch([int startIndex = 1, int endIndex = 10]) async {
+  Future<Map<String, dynamic>> _getHashTagBatch(startIndex, int endIndex) async {
+    // await Future.delayed(Duration(seconds: 2));
     return await get('${Urls.getHashTagsBatch}?start-index=${startIndex}&end-index=${endIndex}')
         .then(onValue)
         .catchError(onError);
   }
 
-  Future<List<String>> fetchHashTags([int startIndex = 1, int endIndex = 10]) async {
+  Future<List<String>> fetchHashTags(startIndex, int endIndex) async {
+    setRequestInProgressState();
     Map response = await _getHashTagBatch(startIndex, endIndex);
     List<String> hashTags = [];
     if(response['status']) {

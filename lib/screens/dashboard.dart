@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/screens/nicknames.dart';
+import 'package:assignment_2/screens/hashtag_tab.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashBoard extends StatefulWidget {
@@ -28,7 +29,7 @@ class _DashBoardState extends State<DashBoard> {
         body: TabBarView(
           children: [
             NickNames(),
-            Center( child: Text("Page 2")),
+            HashTags(),
           ],
         ),
       ),

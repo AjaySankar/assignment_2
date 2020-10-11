@@ -10,11 +10,11 @@ class HashTagGetter extends InstaPostRequest {
 
   Future<Map<String, dynamic>> _getHashTagCount() async {
     return await get(Urls.getHashTagCount)
-        .then(onValue)
+        .then(onHashCountValue)
         .catchError(onError);
   }
 
-  Future<FutureOr> onValue(Response response) async {
+  Future<FutureOr> onHashCountValue(Response response) async {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;
     if (response.statusCode == 200) {

@@ -44,8 +44,8 @@ class _RatingStarsState extends State<RatingStars> {
     };
 
     return SmoothStarRating(
-      color: isReadOnly ? Colors.green : getThemeColor(),
-      borderColor: isReadOnly ? Colors.green : getThemeColor(),
+      color: isReadOnly ? Color(0xfffffce00) : getThemeColor(),
+      borderColor: isReadOnly ? Color(0xfffffce00) : getThemeColor(),
       rating: rating,
       isReadOnly: isReadOnly,
       size: 20,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/input_decoration.dart';
 import 'package:assignment_2/utils/login_register_buttons.dart';
 import 'package:assignment_2/utils/validators.dart';
+import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/auth/auth.dart';
 import 'package:assignment_2/utils/request_states.dart';
-import 'package:assignment_2/user/user.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -69,13 +69,6 @@ class _RegisterState extends State<Register> {
             showSnackBar(response['message']??'Failed to register!!');
           }
           else {
-            User().setUserProfile({
-              "firstName": _firstName,
-              "lastName": _lastName,
-              "nickname": _nickName,
-              "email": _email,
-              "password": _password
-            });
             Navigator.pushReplacementNamed(context, '/dashboard');
           }
         });
@@ -92,6 +85,10 @@ class _RegisterState extends State<Register> {
 
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              title: Text('InstaPost'),
+              backgroundColor: getThemeColor(),
+            ),
             key: _scaffoldKey,
             body: Center(
               child: SingleChildScrollView(

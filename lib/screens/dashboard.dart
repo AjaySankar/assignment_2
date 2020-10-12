@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/screens/nicknames.dart';
 import 'package:assignment_2/screens/hashtag_tab.dart';
+import 'package:assignment_2/screens/user_feed.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashBoard extends StatefulWidget {
@@ -14,11 +15,12 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
+              Tab(icon: Icon(FontAwesomeIcons.user), text: "Your feed",),
               Tab(icon: Icon(FontAwesomeIcons.userFriends), text: "Nick names",),
               Tab(icon: Icon(FontAwesomeIcons.hashtag), text: "Hash tags"),
             ],
@@ -28,6 +30,7 @@ class _DashBoardState extends State<DashBoard> {
         ),
         body: TabBarView(
           children: [
+            UserFeed(),
             NickNames(),
             HashTags(),
           ],

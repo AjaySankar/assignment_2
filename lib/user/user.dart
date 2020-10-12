@@ -15,10 +15,10 @@ class User {
     // Singleton constructor
   }
   void setUserProfile(Map<String, String> userProfile) {
-    _firstName = userProfile['firstName'];
-    _lastName = userProfile['lastName'];
+    _firstName = userProfile['firstname'];
+    _lastName = userProfile['lastname'];
     _password = userProfile['password'];
-    _nickName = userProfile['_nickName'];
+    _nickName = userProfile['nickname'];
     _email = userProfile['email'];
   }
 }

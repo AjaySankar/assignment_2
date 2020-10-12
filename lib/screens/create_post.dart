@@ -139,89 +139,99 @@ class _PostFormState extends State<PostForm> {
       }
     };
 
-    return SafeArea(
-      child: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _postFormKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text(
-                    "Create Post",
-                    style: TextStyle(
-                        fontSize: 40,
-                        color: getThemeColor()
-                    )
-                  ),
-                ),
-                SizedBox(height: 25.0),
-                Container(
-                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Say something with hashtags..",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+    var getAppBar = () {
+      return AppBar(
+        title: Text("InstaPost"),
+        backgroundColor: getThemeColor(),
+      );
+    };
+
+    return Scaffold(
+      appBar: getAppBar(),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _postFormKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      "Create Post",
+                      style: TextStyle(
+                          fontSize: 40,
+                          color: getThemeColor()
+                      )
                     ),
-                    controller: postDescriptionController,
-                    validator: validatePost,
-                    onSaved: (value) => setState(() { _postDescription = postDescriptionController.text; }),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 5,
-                    maxLength: MAX_POST_LENGTH,
-                    style: TextStyle(fontSize: 20.0),
                   ),
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: _image != null
-                        ? ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.file(
-                        _image,
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.fitHeight,
+                  SizedBox(height: 25.0),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Say something with hashtags..",
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+                      ),
+                      controller: postDescriptionController,
+                      validator: validatePost,
+                      onSaved: (value) => setState(() { _postDescription = postDescriptionController.text; }),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      maxLength: MAX_POST_LENGTH,
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                  ),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _showPicker(context);
+                      },
+                      child: _image != null
+                          ? ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.file(
+                          _image,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      )
+                          : Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(15)),
+                        width: 100,
+                        height: 100,
+                        child: Icon(
+                          Icons.add_photo_alternate,
+                          color: Colors.grey[800],
+                        ),
                       ),
                     )
-                        : Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(15)),
-                      width: 100,
-                      height: 100,
-                      child: Icon(
-                        Icons.add_photo_alternate,
-                        color: Colors.grey[800],
-                      ),
+                  ),
+                  SizedBox(height: 20.0),
+                  _createPostStatus == Status.RequestInProcess
+                      || _uploadPostImageStatus == Status.RequestInProcess
+                      ? loading :
+                  Ink(
+                    decoration: const ShapeDecoration(
+                      color: const Color(0xfff4267B2),
+                      shape: CircleBorder(),
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.file_upload),
+                      color: Colors.white,
+                      onPressed: uploadPost,
+                      tooltip: "Upload post",
                     ),
                   )
-                ),
-                SizedBox(height: 20.0),
-                _createPostStatus == Status.RequestInProcess
-                    || _uploadPostImageStatus == Status.RequestInProcess
-                    ? loading :
-                Ink(
-                  decoration: const ShapeDecoration(
-                    color: const Color(0xfff4267B2),
-                    shape: CircleBorder(),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.file_upload),
-                    color: Colors.white,
-                    onPressed: uploadPost,
-                    tooltip: "Upload post",
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 }

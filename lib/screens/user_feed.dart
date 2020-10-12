@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/feed.dart';
+import 'package:assignment_2/screens/create_post.dart';
 import 'package:assignment_2/network/getFriendPosts.dart';
 import 'package:assignment_2/utils/request_states.dart';
+import 'package:assignment_2/utils/theme.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserFeed extends StatelessWidget {
   final GetFriendPosts getFriendPostsHandle = GetFriendPosts((Status requestState) => {});
@@ -9,9 +12,26 @@ class UserFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Center(
-      child: Feed (
-        getFriendPostsHandle.getFriendPostIds("ajaytest")
+    return Scaffold(
+      body: Center(
+        child: Feed (
+          getFriendPostsHandle.getFriendPostIds("ajaytest")
+        )
+      ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: getThemeColor(),
+          child: Icon(
+            FontAwesomeIcons.plus,
+            semanticLabel: 'Create a new post',
+          ),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PostForm(),
+                )
+            );
+          }
       )
     );
   }

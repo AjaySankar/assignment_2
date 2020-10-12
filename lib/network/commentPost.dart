@@ -10,13 +10,13 @@ class CommentPost  extends InstaPostRequest {
 
   Future<Map<String, dynamic>> comment(int postId, String comment) async {
     User user = User();
-    user.setUserProfile({
-      "firstName": "Test",
-      "lastName": "User",
-      "nickname": "ajaytest",
-      "email": "ajaytest@gmail.com",
-      "password": "testuser"
-    });
+    // user.setUserProfile({
+    //   "firstName": "Test",
+    //   "lastName": "User",
+    //   "nickname": "ajaytest",
+    //   "email": "ajaytest@gmail.com",
+    //   "password": "testuser"
+    // });
     final Map<String, dynamic> postData = {
       "email": user.email,
       "password": user.password,

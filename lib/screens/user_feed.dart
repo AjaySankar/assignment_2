@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:assignment_2/screens/friend_feed.dart';
+import 'package:assignment_2/screens/feed.dart';
+import 'package:assignment_2/network/getFriendPosts.dart';
+import 'package:assignment_2/utils/request_states.dart';
 
 class UserFeed extends StatelessWidget {
-  final String nickName;
-
-  UserFeed({Key key, @required this.nickName}) : super(key: key);
+  final GetFriendPosts getFriendPostsHandle = GetFriendPosts((Status requestState) => {});
 
   @override
   Widget build(BuildContext context) {
-    return FriendFeed("ajaytest");
+
+    return Center(
+      child: Feed (
+        getFriendPostsHandle.getFriendPostIds("ajaytest")
+      )
+    );
   }
 }

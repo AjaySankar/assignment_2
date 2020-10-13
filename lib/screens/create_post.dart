@@ -18,6 +18,7 @@ class PostForm extends StatefulWidget {
 
 class _PostFormState extends State<PostForm> {
   final _postFormKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // Hack to show snack bar -> https://bit.ly/2SslerY
   String _postDescription;
   TextEditingController postDescriptionController = TextEditingController(text: '');
   Status _createPostStatus = Status.NotRequested;
@@ -59,15 +60,6 @@ class _PostFormState extends State<PostForm> {
     super.dispose();
   }
 
-  var showSnackBar = (text, context) => {
-    Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text(text),
-          duration: Duration(seconds: 3),
-        )
-    )
-  };
-
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -93,6 +85,16 @@ class _PostFormState extends State<PostForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    var showSnackBar = (text, context) => {
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: text,
+            duration: Duration(seconds: 3),
+          )
+      )
+    };
+
 
     var getLoadingText = () {
       String _loadingMsg = '';
@@ -125,11 +127,17 @@ class _PostFormState extends State<PostForm> {
                   response['message'] ?? 'Failed to upload image!!',
                   context);
             }
+            else {
+              Navigator.pushReplacementNamed(context, '/dashboard');
+            }
           });
         }
         catch(e) {
           showSnackBar('Failed to upload image!!', context);
         }
+      }
+      else {
+        Navigator.pushReplacementNamed(context, '/dashboard');
       }
     };
 
@@ -139,14 +147,13 @@ class _PostFormState extends State<PostForm> {
         form.save();
         List<String> hashTags = getHashTags(_postDescription);
         addPostHandle.createInstaPost(_postDescription, hashTags).then((Map<String, dynamic> response) {
-          print(response);
+          // print(response);
           if(!response['status']) {
             showSnackBar(response['message']??'Failed to create post!!', context);
+            return;
           }
-          else {
-            // Post created successfully.
-            uploadImage(response['body']['id']);
-          }
+          // Post created successfully.
+          uploadImage(response['body']['id']);
         });
       }
     };
@@ -159,6 +166,7 @@ class _PostFormState extends State<PostForm> {
     };
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: getAppBar(),
       body: SafeArea(
         child: Center(

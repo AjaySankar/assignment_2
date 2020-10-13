@@ -8,7 +8,6 @@ import 'package:assignment_2/network/addImageToPost.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 const int MAX_POST_LENGTH = 144;
 
@@ -32,7 +31,6 @@ class _PostFormState extends State<PostForm> {
     File image = await  ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50
     );
-    Uint8List encodedImage = image.readAsBytesSync();
     setState(() {
       _image = image;
     });

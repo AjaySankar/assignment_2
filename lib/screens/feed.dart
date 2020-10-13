@@ -10,7 +10,6 @@ class _FeedListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Long List';
 
     return ListView.builder(
       itemCount: items.length,

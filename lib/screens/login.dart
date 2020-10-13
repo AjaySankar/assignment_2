@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
     var showSnackBar = (text) => {
       _scaffoldKey.currentState.showSnackBar(
           SnackBar(
-            content: Text('${text}'),
+            content: Text(text),
             duration: Duration(seconds: 3),
           )
       )

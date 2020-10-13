@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
     var showSnackBar = (text) => {
       _scaffoldKey.currentState.showSnackBar(
           SnackBar(
-            content: Text('${text}'),
+            content: Text(text),
             duration: Duration(seconds: 3),
           )
       )

@@ -13,7 +13,7 @@ class HashTagFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     var getAppBar = () {
       return AppBar(
-        title: Text("${hashTag} posts"),
+        title: Text("$hashTag posts"),
         backgroundColor: getThemeColor(),
       );
     };

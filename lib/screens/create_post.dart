@@ -62,7 +62,7 @@ class _PostFormState extends State<PostForm> {
   var showSnackBar = (text, context) => {
     Scaffold.of(context).showSnackBar(
         SnackBar(
-          content: Text('${text}'),
+          content: Text(text),
           duration: Duration(seconds: 3),
         )
     )

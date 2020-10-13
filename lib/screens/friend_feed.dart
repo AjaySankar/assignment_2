@@ -13,7 +13,7 @@ class FriendFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     var getAppBar = () {
       return AppBar(
-        title: Text("${nickName} 's posts"),
+        title: Text("$nickName 's posts"),
         backgroundColor: getThemeColor(),
       );
     };

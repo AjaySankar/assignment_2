@@ -118,7 +118,7 @@ class HashTags extends StatelessWidget {
           children: [
             ...hashTags.map((hashTag) {
               return TextSpan(
-                  text: '${hashTag} ',
+                  text: hashTag,
                   style: TextStyle(
                       color: getThemeColor()
                   )

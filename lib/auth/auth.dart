@@ -34,7 +34,7 @@ class Auth {
     };
     _setRquestorState(Status.RequestInProcess);
     // await Future.delayed(Duration(seconds: 2));
-    return await get('${Urls.login}?email=${email}&password=${password}')
+    return await get('${Urls.login}?email=$email&password=$password')
         .then((Response response) => onValue(response, loginData))
         .catchError(onError);
   }
@@ -64,7 +64,7 @@ class Auth {
     _setRquestorState(Status.RequestFailed);
     return {
       'status': false,
-      'message': 'Unsuccessful Request - ${error}',
+      'message': 'Unsuccessful Request - $error',
     };
   }
 }

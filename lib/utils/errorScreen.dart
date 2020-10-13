@@ -11,7 +11,7 @@ Widget getErrorScreen([error = 'Failed to load', icon = Icons.error_outline, ico
       ),
       Padding(
         padding: const EdgeInsets.only(top: 16),
-        child: Text('Error: ${error}'),
+        child: Text('Error: $error'),
       )
     ],
   );

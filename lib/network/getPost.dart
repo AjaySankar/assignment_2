@@ -8,7 +8,7 @@ class GetPost extends InstaPostRequest {
 
   Future<Map<String, dynamic>> getInstaPost(int postId) async {
     // await Future.delayed(Duration(seconds: 2));
-    return await get('${Urls.getPost}?post-id=${postId}')
+    return await get('${Urls.getPost}?post-id=$postId')
         .then(onValue)
         .catchError(onError);
   }

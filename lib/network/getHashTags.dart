@@ -16,7 +16,7 @@ class HashTagGetter extends InstaPostRequest {
 
   Future<Map<String, dynamic>> _getHashTagBatch(startIndex, int endIndex) async {
     // await Future.delayed(Duration(seconds: 2));
-    return await get('${Urls.getHashTagsBatch}?start-index=${startIndex}&end-index=${endIndex}')
+    return await get('${Urls.getHashTagsBatch}?start-index=$startIndex&end-index=$endIndex')
         .then(onValue)
         .catchError(onError);
   }

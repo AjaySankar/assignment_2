@@ -36,7 +36,7 @@ class InstaPostRequest {
     setRquestorState(Status.RequestFailed);
     return {
       'status': false,
-      'message': 'Unsuccessful Request - ${error}',
+      'message': 'Unsuccessful Request - $error',
     };
   }
 }

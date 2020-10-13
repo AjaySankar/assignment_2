@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart';
 import 'package:assignment_2/utils/request_states.dart';
 

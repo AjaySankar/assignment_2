@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:assignment_2/utils/theme.dart';
 
 var getErrorScreen = ([error = 'Failed to load', icon = Icons.error_outline, iconColor = Colors.red]) {
   return Column(

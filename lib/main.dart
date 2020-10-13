@@ -1,11 +1,7 @@
-import 'package:assignment_2/screens/nicknames.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/login.dart';
 import 'package:assignment_2/screens/register.dart';
 import 'package:assignment_2/screens/dashboard.dart';
-import 'package:assignment_2/utils/theme.dart';
-import 'package:assignment_2/screens/insta_post.dart';
-import 'package:assignment_2/screens/feed.dart';
 
 void main() {
   runApp(MyApp());

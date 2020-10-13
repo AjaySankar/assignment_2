@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:assignment_2/utils/theme.dart';
 
 // From one of the buttons in flutter documentation - https://flutter.dev/docs/development/ui/widgets/material#Buttons
 

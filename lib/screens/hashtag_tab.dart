@@ -72,6 +72,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   Widget getFAB() {
     if(_getHashTagsRequestedState == Status.RequestInProcess) {
       return FloatingActionButton(
+          heroTag: "Hashtag feed fab",
           backgroundColor: getThemeColor(),
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(getThemeColor()),
@@ -81,6 +82,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
       );
     }
     return FloatingActionButton(
+      heroTag: "Hashtag feed fab",
       backgroundColor: getThemeColor(),
       child: Icon(FontAwesomeIcons.getPocket),
         onPressed: getMoreHashTags

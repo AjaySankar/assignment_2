@@ -19,6 +19,7 @@ class UserFeed extends StatelessWidget {
         )
       ),
       floatingActionButton: FloatingActionButton(
+          heroTag: "User feed fab",
           backgroundColor: getThemeColor(),
           child: Icon(
             FontAwesomeIcons.plus,

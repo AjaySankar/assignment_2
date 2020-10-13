@@ -39,14 +39,18 @@ class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixi
 
   Widget build(BuildContext context) {
     super.build(context);
+    Widget widget;
     switch(_getNickNamesRequestState) {
       case Status.RequestSuccessful:
-        return _NickNameGrid(nickNames);
+        widget = _NickNameGrid(nickNames);
+        break;
       case Status.RequestFailed:
-        return getErrorScreen('Failed to load nicknames');
+        widget =  getErrorScreen('Failed to load nicknames');
+        break;
       default:
-      return Center(child: CircularProgressIndicator());
-    };
+      widget = Center(child: CircularProgressIndicator());
+    }
+    return widget;
   }
 }
 

@@ -113,6 +113,26 @@ class _PostFormState extends State<PostForm> {
       ],
     );
 
+    var uploadImage = (int postId) {
+      if(!(_image == null)) {
+        try {
+          String imageAsString = readImageAsBase64Encode(_image);
+          addImageToPostHandle.uploadImage(
+              imageAsString, postId).then((Map response) {
+            print(response);
+            if (!response['status']) {
+              showSnackBar(
+                  response['message'] ?? 'Failed to upload image!!',
+                  context);
+            }
+          });
+        }
+        catch(e) {
+          showSnackBar('Failed to upload image!!', context);
+        }
+      }
+    };
+
     var uploadPost = () {
       final form = _postFormKey.currentState;
       if (form.validate()) {
@@ -121,17 +141,11 @@ class _PostFormState extends State<PostForm> {
         addPostHandle.createInstaPost(_postDescription, hashTags).then((Map<String, dynamic> response) {
           print(response);
           if(!response['status']) {
-            showSnackBar(response['message']??'Failed to register!!', context);
+            showSnackBar(response['message']??'Failed to create post!!', context);
           }
           else {
             // Post created successfully.
-            String imageAsString = readImageAsBase64Encode(_image);
-            addImageToPostHandle.uploadImage(imageAsString, response['body']['id']).then((value) {
-              print(response);
-              if(!response['status']) {
-                showSnackBar(response['message']??'Failed to upload image!!', context);
-              }
-            });
+            uploadImage(response['body']['id']);
           }
         });
       }

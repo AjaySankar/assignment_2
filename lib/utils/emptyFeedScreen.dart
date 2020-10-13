@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-var getEmptyFeedScreen = ([emptyFeedDialogue = 'Empty Feed', icon = Icons.filter_none, iconColor = const Color(0xfff4267B2)]) {
+Widget getEmptyFeedScreen([emptyFeedDialogue = 'Empty Feed', icon = Icons.filter_none, iconColor = const Color(0xfff4267B2)]) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
@@ -15,4 +15,4 @@ var getEmptyFeedScreen = ([emptyFeedDialogue = 'Empty Feed', icon = Icons.filter
       )
     ],
   );
-};
+}

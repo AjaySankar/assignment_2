@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-var getErrorScreen = ([error = 'Failed to load', icon = Icons.error_outline, iconColor = Colors.red]) {
+Widget getErrorScreen([error = 'Failed to load', icon = Icons.error_outline, iconColor = Colors.red]) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
@@ -15,4 +15,4 @@ var getErrorScreen = ([error = 'Failed to load', icon = Icons.error_outline, ico
       )
     ],
   );
-};
+}

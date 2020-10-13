@@ -87,14 +87,14 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
     );
   }
 
-  var goToHashTagFeed = (BuildContext context, [String hashTag = '']) {
+  void goToHashTagFeed(BuildContext context, [String hashTag = '']) {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => HashTagFeed(hashTag),
         )
     );
-  };
+  }
 
   Widget buildHashTags(BuildContext context) {
     return ListView.separated(

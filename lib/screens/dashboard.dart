@@ -32,7 +32,7 @@ class _DashBoardState extends State<DashBoard> {
           children: [
             UserFeed(),
             NickNames(),
-            HashTags(),
+            HashTagsTab(),
           ],
         ),
       ),

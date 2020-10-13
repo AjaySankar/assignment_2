@@ -8,14 +8,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const int MAX_HASHTAG_BATCH_SIZE = 20;
 
-class HashTags extends StatefulWidget {
-  const HashTags({Key key}) : super(key: key);
+class HashTagsTab extends StatefulWidget {
+  const HashTagsTab({Key key}) : super(key: key);
 
   @override
   _HashTagsState createState() => _HashTagsState();
 }
 
-class _HashTagsState extends State<HashTags> with AutomaticKeepAliveClientMixin<HashTags>{
+class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMixin<HashTagsTab>{
   List<String> hashTags = [];
   Status _getHashTagCountRequestState = Status.NotRequested;
   Status _getHashTagsRequestedState = Status.NotRequested;

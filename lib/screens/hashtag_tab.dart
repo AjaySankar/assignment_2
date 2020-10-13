@@ -141,6 +141,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: getBody(context),
       bottomNavigationBar: getBottonNavigationBar(),

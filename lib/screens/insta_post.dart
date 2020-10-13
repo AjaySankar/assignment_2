@@ -29,7 +29,7 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     var getCardContents = (response) {
       if(response['status']) {
         Post post = Post.fromJSON(response['body']['post']);

@@ -5,7 +5,7 @@ import 'package:assignment_2/network/getNickNames.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/screens/friend_feed.dart';
 
-final int NO_NAMES_PER_ROW = 3;
+const int NO_NAMES_PER_ROW = 3;
 
 class NickNames extends StatefulWidget {
   const NickNames({Key key}) : super(key: key);
@@ -38,6 +38,7 @@ class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixi
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     switch(_getNickNamesRequestState) {
       case Status.RequestSuccessful:
         return _NickNameGrid(nickNames);

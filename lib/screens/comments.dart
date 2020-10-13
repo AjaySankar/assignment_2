@@ -95,7 +95,7 @@ class CommentsList extends StatelessWidget {
 class SingleComment extends StatelessWidget {
   final String comment;
 
-  const SingleComment(@required this.comment);
+  const SingleComment(this.comment);
 
   @override
   Widget build(BuildContext context) {

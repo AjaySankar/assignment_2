@@ -22,7 +22,7 @@ class _FeedListBuilder extends StatelessWidget {
 
 class Feed extends StatefulWidget {
   final Future<Map<String, dynamic>> _fetchPostsFuture;
-  Feed(@required this._fetchPostsFuture);
+  Feed(this._fetchPostsFuture);
   @override
   _FeedState createState() => _FeedState();
 }

@@ -34,11 +34,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("InstaPost"),
-          backgroundColor: getThemeColor(),
-        ),
-        body: DashBoard()
+        body: Login()
       ),
       routes: {
         '/login': (context) => Login(),

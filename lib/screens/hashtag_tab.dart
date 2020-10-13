@@ -123,7 +123,10 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
           Spacer(),
           Opacity(
             opacity: 0.0,
-            child: IconButton(icon: Icon(Icons.search)),
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: (){},
+            ),
           )
         ],
       ),

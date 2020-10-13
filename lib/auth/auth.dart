@@ -26,10 +26,23 @@ class Auth {
         .catchError(onError);
   }
 
+  Future<Map<String, dynamic>> login(String email, String password, String nickname) async {
+    final Map<String, String> loginData = {
+      "nickname": nickname,
+      "email": email,
+      "password": password
+    };
+    _setRquestorState(Status.RequestInProcess);
+    // await Future.delayed(Duration(seconds: 2));
+    return await get('${Urls.login}?email=${email}&password=${password}')
+        .then((Response response) => onValue(response, loginData))
+        .catchError(onError);
+  }
+
   Future<FutureOr> onValue(Response response, Map<String, String> authInput) async {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;
-    if (response.statusCode == 200 && responseData["result"] == "success") {
+    if (response.statusCode == 200 && (responseData["result"] == "success" || responseData["result"] == true)) {
       User().setUserProfile(authInput);
       _setRquestorState(Status.RequestSuccessful);
       result = {

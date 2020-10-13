@@ -15,4 +15,5 @@ class Urls {
   static const String getHashTagCount = queryBaseURL + "/hashtag-count";
   static const String getHashTagsBatch = queryBaseURL + "/hashtags-batch";
   static const String getHashTagPostIds = queryBaseURL + "/hashtags-post-ids";
+  static const String login = queryBaseURL + "/authenticate";
 }

@@ -33,7 +33,7 @@ class _FeedState extends State<Feed> {
 
     List<InstaPost> getInstaPosts(List<int> postIds) {
       return postIds.map((postId) => InstaPost(postId)).toList();
-    };
+    }
 
     var buildFeed = (response) {
       if(response['status']) {

@@ -6,6 +6,8 @@ import 'package:assignment_2/screens/comments.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/getPost.dart';
 import 'package:assignment_2/post/post.dart';
+import 'package:assignment_2/post/post_provider.dart';
+import 'package:provider/provider.dart';
 
 class InstaPost extends StatefulWidget {
   InstaPost(this.postId);
@@ -30,77 +32,89 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var getCardContents = (response) {
-      if(response['status']) {
-        Post post = Post.fromJSON(response['body']['post']);
-        return Column (
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            PostImage(post.image),
-            SizedBox(height: 10.0),
-            RatingStars(widget.postId),
-            SizedBox(height: 10.0),
-            Text(post.description),
-            SizedBox(height: 10.0),
-            HashTags(post.hashTags),
-            Comments(widget.postId, post.comments)
-          ],
-        );
-      }
+
+    Widget getErrorCardContents([IconData icon = Icons.broken_image, Color iconColor = Colors.red, errorMsg = 'Failed to fetch post']) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(
-            Icons.broken_image,
-            color: Colors.red,
+            icon,
+            color: iconColor,
             size: 60,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: Text('Error: ${response['message']}'),
+            child: Text('Error: $errorMsg'),
           )
         ],
       );
-    };
+    }
+
+    Widget buildInstaPostCardContents() {
+      return Column (
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          PostImage(),
+          SizedBox(height: 10.0),
+          RatingStars(),
+          SizedBox(height: 10.0),
+          PostDescription(),
+          SizedBox(height: 10.0),
+          HashTags(),
+          Comments()
+        ],
+      );
+    }
+
+    Widget buildCard(Widget cardContents) {
+      return Card(
+        child: Container(
+          alignment: Alignment.center,
+          child: cardContents,
+        ),
+      );
+    }
+
+    Widget buildPostChangeNotifierProvider(BuildContext context, Post initPostData, Widget cardContents) {
+      return ChangeNotifierProvider(
+        create: (context) => PostModel(initPostData),
+        child: buildCard(cardContents)
+      );
+    }
 
     Future<Map<String, dynamic>> _fetchPost = getPostHandle.getInstaPost(widget.postId);
     return FutureBuilder<Map<String, dynamic>>(
       future: _fetchPost,
       builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-        Widget cardChild;
+        Widget instaPost;
         if(snapshot.hasData) {
           // print(snapshot.data);
-          cardChild = getCardContents(snapshot.data);
+          Map response = snapshot.data;
+          Widget cardContents;
+          if(response['status']) {
+            Post fetchedPost = Post.fromJSON(response['body']['post']);
+            fetchedPost.setPostId(widget.postId);
+            cardContents = buildInstaPostCardContents();
+            instaPost = buildPostChangeNotifierProvider(context, fetchedPost, cardContents);
+          }
+          else {
+            cardContents = getErrorCardContents();
+            instaPost = buildCard(cardContents);
+          }
         }
         else if(snapshot.hasError) {
-          cardChild = Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                Icons.error_outline,
-                color: getThemeColor(),
-                size: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Error: ${snapshot.error}'),
-              )
-            ],
-          );
+          Widget cardContents = getErrorCardContents(Icons.error_outline, getThemeColor());
+          instaPost = buildCard(cardContents);
         }
         else {
-          cardChild = SizedBox(
+          Widget cardContents = SizedBox(
               child: CircularProgressIndicator(),
               width: 60,
               height: 60,
             );
+          instaPost = buildCard(cardContents);
         }
-        return Card(
-          child: Container(
-            alignment: Alignment.center,
-            child: cardChild,
-          ),
-        );
+        return instaPost;
       },
     );
   }
@@ -108,15 +122,13 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
 
 
 class HashTags extends StatelessWidget {
-  HashTags(this.hashTags);
-  final List<String> hashTags;
-
   @override
   Widget build(BuildContext context) {
+    final postProvider = Provider.of<PostModel>(context, listen: false);
     return Text.rich(
       TextSpan(
           children: [
-            ...hashTags.map((hashTag) {
+            ...postProvider.hashTags.map((hashTag) {
               return TextSpan(
                   text: hashTag,
                   style: TextStyle(
@@ -127,5 +139,13 @@ class HashTags extends StatelessWidget {
           ]
       ),
     );
+  }
+}
+
+class PostDescription extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final postProvider = Provider.of<PostModel>(context, listen: false);
+    return Text(postProvider.description);
   }
 }

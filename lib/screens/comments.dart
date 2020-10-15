@@ -2,71 +2,70 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/network/commentPost.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/snackBar.dart';
+import 'package:assignment_2/post/post_provider.dart';
+import 'package:provider/provider.dart';
 
 class Comments extends StatefulWidget {
-  final int postId;
-  final List<String> comments;
-  Comments(this.postId, this.comments);
+  Comments();
   @override
   _CommentsState createState() => _CommentsState();
 }
 
 class _CommentsState extends State<Comments> {
   final TextEditingController _commentController = TextEditingController();
-  List<String> comments;
   CommentPost commentPostHandle;
   @override
   void initState() {
     super.initState();
-    comments = widget.comments;
     commentPostHandle = CommentPost((Status requestState) => {});
   }
 
   @override
   Widget build(BuildContext context) {
 
-    var addComment = (newComment) {
+    void addComment(String newComment, PostModel post) {
       if(newComment.length == 0) {
         return;
       }
-      commentPostHandle.comment(widget.postId, newComment).then((Map<String, dynamic> response) {
+      commentPostHandle.comment(post.postId, newComment).then((Map<String, dynamic> response) {
         print(response);
         if(!response['status']) {
           showSnackBar(response['message']??'Failed to comment post. Try again !!', context);
         }
         else {
           _commentController.clear();
-          setState(() {
-            comments = [...comments, newComment];
-          });
+          post.addComment(newComment);
         }
       });
-    };
+    }
 
-    return Column(
-      children: [
-        CommentsList(comments),
-        Divider(),
-        ListTile(
-          title: TextFormField(
-            controller: _commentController,
-            decoration: InputDecoration(labelText: 'Write a comment...'),
-            onFieldSubmitted: addComment,
-          ),
-          trailing: Ink(
-            decoration: const ShapeDecoration(
-              color: const Color(0xfff4267B2),
-              shape: CircleBorder(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.add_comment),
-              color: Colors.white,
-              onPressed: (){addComment(_commentController.text);},
-              tooltip: "Upload post",
-            ),
-          )
-        )
-      ],
+    return Consumer<PostModel>(
+      builder: (context, post, child) {
+        return Column(
+          children: [
+            CommentsList(post.comments),
+            Divider(),
+            ListTile(
+              title: TextFormField(
+                controller: _commentController,
+                decoration: InputDecoration(labelText: 'Write a comment...'),
+              ),
+              trailing: Ink(
+                decoration: const ShapeDecoration(
+                  color: const Color(0xfff4267B2),
+                  shape: CircleBorder(),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.add_comment),
+                  color: Colors.white,
+                  onPressed: (){addComment(_commentController.text, post);},
+                  tooltip: "Upload post",
+                ),
+              )
+            )
+          ],
+        );
+      }
     );
   }
 }

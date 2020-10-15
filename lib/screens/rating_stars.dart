@@ -6,10 +6,11 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/snackBar.dart';
+import 'package:assignment_2/post/post_provider.dart';
+import 'package:provider/provider.dart';
 
 class RatingStars extends StatefulWidget {
-  RatingStars(this.postId);
-  final int postId;
+  RatingStars();
 
   @override
   _RatingStarsState createState() => _RatingStarsState();
@@ -18,8 +19,6 @@ class RatingStars extends StatefulWidget {
 class _RatingStarsState extends State<RatingStars> {
 
   RatePost ratePostHandle;
-  var rating = 0.0;
-  bool isReadOnly = false; // Enabled user rating initially.
 
   @override
   void initState() {
@@ -30,36 +29,36 @@ class _RatingStarsState extends State<RatingStars> {
   @override
   Widget build(BuildContext context) {
 
-    var afterRating = (Map<String, dynamic> response) {
-      print(response);
+    var afterRating = (Map<String, dynamic> response, PostModel postModel, int rating) {
+      // print(response);
       if(!response['status']) {
         showSnackBar(response['message']??'Failed to rate post. Try again !!', context);
       }
       else {
-        // Disable rating once user has successfully rated.
-        setState(() {
-          isReadOnly = true;
-        });
+        postModel.setUserRating(rating);
       }
     };
 
-    return SmoothStarRating(
-      color: isReadOnly ? Color(0xfffffce00) : getThemeColor(),
-      borderColor: isReadOnly ? Color(0xfffffce00) : getThemeColor(),
-      rating: rating,
-      isReadOnly: isReadOnly,
-      size: 20,
-      filledIconData: Icons.star,
-      halfFilledIconData: Icons.star_half,
-      defaultIconData: Icons.star_border,
-      starCount: 5,
-      allowHalfRating: false,
-      spacing: 2.0,
-      onRated: (value) {
-        print("rating value -> ${value.round()}");
-        ratePostHandle.rate(widget.postId, value.round())
-            .then(afterRating);
-      },
-    );
+    return Consumer<PostModel>(
+      builder: (context, post, child) {
+        return SmoothStarRating(
+          color: post.userRating > 0 ? Color(0xfffffce00) : getThemeColor(),
+          borderColor: post.userRating > 0 ? Color(0xfffffce00) : getThemeColor(),
+          rating: post.userRating.toDouble(),
+          isReadOnly: post.userRating > 0,
+          size: 20,
+          filledIconData: Icons.star,
+          halfFilledIconData: Icons.star_half,
+          defaultIconData: Icons.star_border,
+          starCount: 5,
+          allowHalfRating: false,
+          spacing: 2.0,
+          onRated: (value) {
+            print("rating value -> ${value.round()}");
+            ratePostHandle.rate(post.postId, value.round())
+                .then((Map response) => afterRating(response, post, value.round()));
+          },
+        );
+    });
   }
 }

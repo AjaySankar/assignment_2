@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:assignment_2/network/getPostImage.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/image_io.dart';
+import 'package:assignment_2/post/post_provider.dart';
+import 'package:provider/provider.dart';
 
 class PostImage extends StatefulWidget {
-  PostImage(this.imageId);
-  final int imageId;
-
   @override
   _PostImageState createState() => _PostImageState();
 }
@@ -23,6 +22,9 @@ class _PostImageState extends State<PostImage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final postProvider = Provider.of<PostModel>(context, listen: false);
+    final int imageId = postProvider.imageId;
 
     var placeHolderImage = (IconData icon, [Color color = Colors.blue]) {
       return new FittedBox(
@@ -51,11 +53,11 @@ class _PostImageState extends State<PostImage> {
       return placeHolderImage(Icons.broken_image, Colors.red);
     };
 
-    if(widget.imageId == -1) {
+    if(imageId == -1) {
       return placeHolderImage(Icons.image);
     }
 
-    Future<Map<String, dynamic>> _fetchPostImage = getPostImageHandle.getInstaPostImage(widget.imageId);
+    Future<Map<String, dynamic>> _fetchPostImage = getPostImageHandle.getInstaPostImage(imageId);
     return FutureBuilder<Map<String, dynamic>>(
         future: _fetchPostImage,
         builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {

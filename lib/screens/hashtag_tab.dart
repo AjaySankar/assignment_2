@@ -24,15 +24,17 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
 
   Future<int> _getHashTagCount() async {
     // await Future.delayed(Duration(seconds: 2));
-    return await HashTagGetter((Status requestState) => {
+    return await HashTagGetter((Status requestState) {
+      if(!this.mounted) return;
       setState(() {
         _getHashTagCountRequestState = requestState;
-      })
+      });
     }).fetchHashTagCount();
   }
 
   Future<List<String>> _getHashTags([int startIndex = 0, int requestedBatchSize = MAX_HASHTAG_BATCH_SIZE]) async {
     return await HashTagGetter((Status requestState) {
+      if(!this.mounted) return;
       setState(() {
         _getHashTagsRequestedState = requestState;
       });
@@ -41,6 +43,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
 
   void addMoreHashTags(List<String> fetchedHashTags) {
     if(_getHashTagsRequestedState == Status.RequestSuccessful) {
+      if(!this.mounted) return;
       setState(() {
         hashTags = [...hashTags, ...fetchedHashTags];
         startIndex = startIndex+MAX_HASHTAG_BATCH_SIZE;
@@ -52,6 +55,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   @override
   void initState() {
     _getHashTagCount().then((data) {
+      if(!this.mounted) return;
       setState(() {
         totalHashTagCount = data;
       });

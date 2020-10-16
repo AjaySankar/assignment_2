@@ -19,8 +19,11 @@ class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixi
   Status _getNickNamesRequestState = Status.NotRequested;
   Future<List<String>> _getNickNames() async {
     // await Future.delayed(Duration(seconds: 2));
-    return await GetNickNames((Status requestState) => {
-      _getNickNamesRequestState = requestState
+    return await GetNickNames((Status requestState) {
+      if(!this.mounted) return;
+      setState(() {
+        _getNickNamesRequestState = requestState;
+      });
     }).fetchNickNames();
   }
 
@@ -30,10 +33,12 @@ class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixi
 
   @override
   void initState() {
-    _getNickNames().then((data) =>
-        setState(() {
-          nickNames = data;
-        }));
+    _getNickNames().then((data) {
+      if(!this.mounted) return;
+      setState(() {
+        nickNames = data;
+      });
+    });
     super.initState();
   }
 

@@ -4,6 +4,7 @@ import 'package:assignment_2/screens/nicknames.dart';
 import 'package:assignment_2/screens/hashtag_tab.dart';
 import 'package:assignment_2/screens/user_feed.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:assignment_2/screens/create_post.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
@@ -23,6 +24,7 @@ class _DashBoardState extends State<DashBoard> {
               Tab(icon: Icon(FontAwesomeIcons.user), text: "Your feed",),
               Tab(icon: Icon(FontAwesomeIcons.userFriends), text: "Nick names",),
               Tab(icon: Icon(FontAwesomeIcons.hashtag), text: "Hash tags"),
+              Tab(icon: Icon(FontAwesomeIcons.plus), text: "New post"),
             ],
           ),
           title: Text('InstaPost'),
@@ -33,6 +35,7 @@ class _DashBoardState extends State<DashBoard> {
             UserFeed(),
             NickNames(),
             HashTagsTab(),
+            PostForm()
           ],
         ),
       ),

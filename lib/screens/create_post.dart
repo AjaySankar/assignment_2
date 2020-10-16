@@ -115,6 +115,13 @@ class _PostFormState extends State<PostForm> {
       ],
     );
 
+    void resetForm() {
+      setState(() {
+        _image = null;
+        postDescriptionController.text = '';
+      });
+    }
+
     var uploadImage = (int postId) {
       if(!(_image == null)) {
         try {
@@ -128,7 +135,7 @@ class _PostFormState extends State<PostForm> {
                   context);
             }
             else {
-              Navigator.pushReplacementNamed(context, '/dashboard');
+              resetForm();
             }
           });
         }
@@ -137,7 +144,7 @@ class _PostFormState extends State<PostForm> {
         }
       }
       else {
-        Navigator.pushReplacementNamed(context, '/dashboard');
+        resetForm();
       }
     };
 
@@ -158,16 +165,8 @@ class _PostFormState extends State<PostForm> {
       }
     };
 
-    var getAppBar = () {
-      return AppBar(
-        title: Text("InstaPost"),
-        backgroundColor: getThemeColor(),
-      );
-    };
-
     return Scaffold(
       key: _scaffoldKey,
-      appBar: getAppBar(),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

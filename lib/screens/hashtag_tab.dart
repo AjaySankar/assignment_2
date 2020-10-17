@@ -17,28 +17,13 @@ class HashTagsTab extends StatefulWidget {
 
 class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMixin<HashTagsTab>{
   List<String> hashTags = [];
-  Status _getHashTagCountRequestState = Status.NotRequested;
   Status _getHashTagsRequestedState = Status.NotRequested;
   int totalHashTagCount;
   int startIndex = 0;
-
-  Future<int> _getHashTagCount() async {
-    // await Future.delayed(Duration(seconds: 2));
-    return await HashTagGetter((Status requestState) {
-      if(!this.mounted) return;
-      setState(() {
-        _getHashTagCountRequestState = requestState;
-      });
-    }).fetchHashTagCount();
-  }
+  HashTagGetter hashTagGetter;
 
   Future<List<String>> _getHashTags([int startIndex = 0, int requestedBatchSize = MAX_HASHTAG_BATCH_SIZE]) async {
-    return await HashTagGetter((Status requestState) {
-      if(!this.mounted) return;
-      setState(() {
-        _getHashTagsRequestedState = requestState;
-      });
-    }).fetchHashTags(startIndex, startIndex+requestedBatchSize);
+    return await hashTagGetter.fetchHashTags(startIndex, startIndex+requestedBatchSize);
   }
 
   void addMoreHashTags(List<String> fetchedHashTags) {
@@ -47,22 +32,19 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
       setState(() {
         hashTags = [...hashTags, ...fetchedHashTags];
         startIndex = startIndex+MAX_HASHTAG_BATCH_SIZE;
-        _getHashTagsRequestedState = Status.NotRequested;
       });
     }
   }
 
   @override
   void initState() {
-    _getHashTagCount().then((data) {
+    hashTagGetter = HashTagGetter((Status requestState) {
       if(!this.mounted) return;
       setState(() {
-        totalHashTagCount = data;
+        _getHashTagsRequestedState = requestState;
       });
-      if(data > 0) {
-        _getHashTags(startIndex).then(addMoreHashTags);
-      }
     });
+    getMoreHashTags();
     super.initState();
   }
 
@@ -140,13 +122,18 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   }
 
   Widget getBody(BuildContext context) {
-    if(_getHashTagCountRequestState == Status.RequestSuccessful) {
-      return buildHashTags(context);
+    Widget body;
+    switch(_getHashTagsRequestedState) {
+      case Status.RequestSuccessful:
+        body = buildHashTags(context);
+        break;
+      case Status.RequestFailed:
+        body = getErrorScreen('Failed to load hashtags');
+        break;
+      default:
+        body = Center(child: CircularProgressIndicator());
     }
-    if(_getHashTagCountRequestState == Status.RequestFailed || _getHashTagsRequestedState == Status.RequestFailed) {
-      return getErrorScreen('Failed to load hashtags');
-    }
-    return Center(child: CircularProgressIndicator());
+    return body;
   }
 
   Widget build(BuildContext context) {

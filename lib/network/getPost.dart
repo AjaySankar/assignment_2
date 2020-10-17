@@ -15,7 +15,7 @@ class GetPost extends InstaPostRequest {
 
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
-      print("Got post from offline");
+      // print("Got post from offline");
       return await readPostFromSharedPref(postId);
     }
 
@@ -39,7 +39,7 @@ class GetPost extends InstaPostRequest {
 
   Future<void> savePostToSharedPref(Map postData, int postId) async {
     String postDataString = json.encode(postData);
-    await saveToSharedPref(postDataString, getPostSharedPrefKey(postId));
+    await saveToSharedPref(getPostSharedPrefKey(postId), postDataString);
   }
 
   Future<Map<String, dynamic>> readPostFromSharedPref(int postId) async {

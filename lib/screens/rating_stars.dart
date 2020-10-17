@@ -8,6 +8,7 @@ import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/snackBar.dart';
 import 'package:assignment_2/post/post_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 class RatingStars extends StatefulWidget {
   RatingStars();
@@ -39,6 +40,16 @@ class _RatingStarsState extends State<RatingStars> {
       }
     };
 
+    void ratePost(PostModel postModel, int rating, BuildContext context) async{
+      bool isOffline = await isDeviceOffline();
+      if(isOffline) {
+        showSnackBar('You are offline!! Connect to internet to rate a post', context);
+        return;
+      }
+      ratePostHandle.rate(postModel.postId, rating)
+          .then((Map response) => afterRating(response, postModel, rating));
+    }
+
     return Consumer<PostModel>(
       builder: (context, post, child) {
         return SmoothStarRating(
@@ -53,11 +64,7 @@ class _RatingStarsState extends State<RatingStars> {
           starCount: 5,
           allowHalfRating: false,
           spacing: 2.0,
-          onRated: (value) {
-            print("rating value -> ${value.round()}");
-            ratePostHandle.rate(post.postId, value.round())
-                .then((Map response) => afterRating(response, post, value.round()));
-          },
+          onRated: (value) => ratePost(post, value.round(), context),
         );
     });
   }

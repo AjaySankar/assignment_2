@@ -4,6 +4,10 @@ import 'package:http/http.dart';
 import 'package:assignment_2/network/postRequestBase.dart';
 import 'dart:convert';
 import 'package:assignment_2/utils/request_states.dart';
+import 'package:assignment_2/shared_pref_utils/sharedPref.dart';
+import 'package:assignment_2/network/deviceOfflineCheck.dart';
+
+const String NICKNAMES_LIST_SHARED_PREF_KEY_PREFIX = "Nicknames";
 
 class GetNickNames extends InstaPostRequest {
   GetNickNames(Function _setRquestorState): super(_setRquestorState);
@@ -36,16 +40,36 @@ class GetNickNames extends InstaPostRequest {
   }
 
   Future<List<String>> fetchNickNames() async {
+
+    bool isOffline = await isDeviceOffline();
+    if(isOffline) {
+      print("Got nicknames from offline");
+      return await readNickNamesFromSharedPref();
+    }
+
     Map response = await _getNickNames();
     List<String> nickNames = [];
     if(response['status']) {
       setRquestorState(Status.RequestSuccessful);
       response['body']['nicknames']
           .forEach((name) => nickNames.add(name.toString()));
+      saveNickNamesToSharedPref(nickNames);
     }
     else {
       setRquestorState(Status.RequestFailed);
     }
     return nickNames;
+  }
+
+  Future<void> saveNickNamesToSharedPref(List<String> nickNames) async {
+    String nickNamesString = nickNames.join(',');
+    await saveToSharedPref(NICKNAMES_LIST_SHARED_PREF_KEY_PREFIX, nickNamesString);
+  }
+
+  Future<List<String>> readNickNamesFromSharedPref() async {
+    setRquestorState(Status.RequestInProcess);
+    final String nickNamesString = await readFromSharedPref(NICKNAMES_LIST_SHARED_PREF_KEY_PREFIX);
+    setRquestorState(Status.RequestSuccessful);
+    return nickNamesString.split(',');
   }
 }

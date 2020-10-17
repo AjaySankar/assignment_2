@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:assignment_2/auth/authInfoUtils.dart';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/user/user.dart';
+import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 class Auth {
   Function _setRquestorState = () => {};
@@ -33,6 +35,11 @@ class Auth {
       "password": password
     };
     _setRquestorState(Status.RequestInProcess);
+    bool isOffline = await isDeviceOffline();
+    if(isOffline) {
+      return await doOfflineLogin(loginData);
+    }
+
     // await Future.delayed(Duration(seconds: 2));
     return await get('${Urls.login}?email=$email&password=$password')
         .then((Response response) => onValue(response, loginData))
@@ -44,6 +51,7 @@ class Auth {
     var result;
     if (response.statusCode == 200 && (responseData["result"] == "success" || responseData["result"] == true)) {
       User().setUserProfile(authInput);
+      saveUserLoginInSharedPref(authInput);
       _setRquestorState(Status.RequestSuccessful);
       result = {
         'status': true,
@@ -66,5 +74,27 @@ class Auth {
       'status': false,
       'message': 'Unsuccessful Request - $error',
     };
+  }
+
+  Future<Map<String, dynamic>> doOfflineLogin(Map<String, String> loginData) async {
+    Map<String, dynamic> loginResult;
+    String nickNamePref = await getNickNameFromSharedPref();
+    String emailPref = await getEmailFromSharedPref();
+    String passwordPref = await getPasswordFromSharedPref();
+    if(loginData['nickname'] == nickNamePref &&
+        loginData['email'] == emailPref &&
+        loginData['password'] == passwordPref) {
+      loginResult = {
+        'status': true,
+        'message': 'Login successful'
+      };
+      _setRquestorState(Status.RequestSuccessful);
+      User().setUserProfile(loginData);
+      saveUserLoginInSharedPref(loginData);
+    }
+    else {
+      loginResult = onError('Failed to login!!');
+    }
+    return loginResult;
   }
 }

@@ -43,7 +43,7 @@ class GetNickNames extends InstaPostRequest {
 
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
-      print("Got nicknames from offline");
+      // print("Got nicknames from offline");
       return await readNickNamesFromSharedPref();
     }
 

@@ -9,12 +9,11 @@ Future<bool> isDeviceOffline() async {
       .then((Response response) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         if (response.statusCode == 200 && responseData["message"] == "pong") {
-          print("Device is online");
           isOffline = false;
         }
       })
       .catchError((error) {
-        print("Device is offline");
+        // print("Device is offline");
       });
   return isOffline;
 }

@@ -15,7 +15,7 @@ class GetFriendPosts extends InstaPostRequest {
 
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
-      print("Got post ids from offline");
+      // print("Got post ids from offline");
       return await readPostIdsFromSharedPref(nickName);
     }
 

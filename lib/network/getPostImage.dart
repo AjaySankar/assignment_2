@@ -14,11 +14,11 @@ class GetPostImage extends InstaPostRequest {
 
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
-      print("Got image from offline");
+      // print("Got image from offline");
       return await readPostImageFromSharedPref(imageId);
     }
 
-    print("Get image from web");
+    // print("Get image from web");
     // await Future.delayed(Duration(seconds: 2));
     return await get('${Urls.getImage}?id=$imageId')
         .then((Response response) => onResponse(response, imageId))

@@ -4,6 +4,7 @@ import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/utils/snackBar.dart';
 import 'package:assignment_2/post/post_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 class Comments extends StatefulWidget {
   Comments();
@@ -23,8 +24,14 @@ class _CommentsState extends State<Comments> {
   @override
   Widget build(BuildContext context) {
 
-    void addComment(String newComment, PostModel post) {
+    void addComment(String newComment, PostModel post) async {
       if(newComment.length == 0) {
+        showSnackBar('Write some comment', context);
+        return;
+      }
+      bool isOffline = await isDeviceOffline();
+      if(isOffline) {
+        showSnackBar('You are offline!! Connect to internet to comment on a post', context);
         return;
       }
       commentPostHandle.comment(post.postId, newComment).then((Map<String, dynamic> response) {

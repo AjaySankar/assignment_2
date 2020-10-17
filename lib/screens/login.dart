@@ -3,7 +3,9 @@ import 'package:assignment_2/utils/input_decoration.dart';
 import 'package:assignment_2/utils/login_register_buttons.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/auth/auth.dart';
+import 'package:assignment_2/auth/authInfoUtils.dart';
 import 'package:assignment_2/utils/request_states.dart';
+import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -15,12 +17,23 @@ class _LoginState extends State<Login> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // Hack to show snack bar -> https://bit.ly/2SslerY
 
   String _email, _nickname, _password;
-  TextEditingController emailController = TextEditingController(text: '');
-  TextEditingController nickNameController = TextEditingController(text: '');
-  TextEditingController passwordController = TextEditingController(text: '');
+  TextEditingController emailController;
+  TextEditingController nickNameController;
+  TextEditingController passwordController;
 
   Status _loginStatus = Status.NotRequested;
   Auth authHandle;
+
+  Future<void> initializeLoginForm() async {
+    String nickName = await getNickNameFromSharedPref();
+    String email = await getEmailFromSharedPref();
+    String password = await getPasswordFromSharedPref();
+    setState(() {
+      emailController = TextEditingController(text: email);
+      nickNameController = TextEditingController(text: nickName);
+      passwordController = TextEditingController(text: password);
+    });
+  }
 
   @override
   void initState() {
@@ -30,6 +43,7 @@ class _LoginState extends State<Login> {
         _loginStatus = registrationState;
       });
     });
+    initializeLoginForm();
   }
 
   @override
@@ -66,7 +80,6 @@ class _LoginState extends State<Login> {
             Navigator.pushReplacementNamed(context, '/dashboard');
           }
         });
-        print("All good");
       }
     };
 
@@ -143,8 +156,14 @@ class _LoginState extends State<Login> {
                                 color: Color(0xfff063057)
                             )
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/register');
+                        onPressed: () async {
+                          bool isOffline = await isDeviceOffline();
+                          if(isOffline) {
+                            showSnackBar('Please connect to internet to register!!');
+                          }
+                          else {
+                            Navigator.pushReplacementNamed(context, '/register');
+                          }
                         },
                       ),
                     ),

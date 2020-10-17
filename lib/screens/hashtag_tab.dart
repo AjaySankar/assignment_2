@@ -25,7 +25,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   HashTagGetter hashTagGetter;
 
   Future<List<String>> _getHashTags(int endHashTagsIndex) async {
-    return await hashTagGetter.fetchHashTags(startIndex, startIndex+MAX_HASHTAG_BATCH_SIZE);
+    return await hashTagGetter.fetchHashTags(startIndex, endHashTagsIndex);
   }
 
   void addMoreHashTags(List<String> fetchedHashTags) {

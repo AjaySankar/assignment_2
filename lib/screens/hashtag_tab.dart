@@ -6,7 +6,7 @@ import 'package:assignment_2/network/getHashTags.dart';
 import 'package:assignment_2/screens/hashtag_feed.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const int MAX_HASHTAG_BATCH_SIZE = 20;
+const int MAX_HASHTAG_BATCH_SIZE = 100;
 
 class HashTagsTab extends StatefulWidget {
   const HashTagsTab({Key key}) : super(key: key);
@@ -22,8 +22,8 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   int startIndex = 0;
   HashTagGetter hashTagGetter;
 
-  Future<List<String>> _getHashTags([int startIndex = 0, int requestedBatchSize = MAX_HASHTAG_BATCH_SIZE]) async {
-    return await hashTagGetter.fetchHashTags(startIndex, startIndex+requestedBatchSize);
+  Future<List<String>> _getHashTags() async {
+    return await hashTagGetter.fetchHashTags(startIndex, startIndex+MAX_HASHTAG_BATCH_SIZE);
   }
 
   void addMoreHashTags(List<String> fetchedHashTags) {
@@ -51,8 +51,11 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   @override
   bool get wantKeepAlive => true;
 
-  void getMoreHashTags() {
-    _getHashTags(startIndex).then(addMoreHashTags);
+  void getMoreHashTags() async {
+    int totalHashTagCount = await hashTagGetter.fetchHashTagCount();
+    if(totalHashTagCount >= 0 && startIndex+MAX_HASHTAG_BATCH_SIZE < totalHashTagCount) {
+      _getHashTags().then(addMoreHashTags);
+    }
   }
 
   Widget getFAB() {

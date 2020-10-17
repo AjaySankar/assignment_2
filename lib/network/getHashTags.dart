@@ -8,13 +8,7 @@ import 'dart:convert';
 class HashTagGetter extends InstaPostRequest {
   HashTagGetter(Function setRquestorState): super(setRquestorState);
 
-  Future<Map<String, dynamic>> _getHashTagCount() async {
-    return await get(Urls.getHashTagCount)
-        .then(onHashCountValue)
-        .catchError(onError);
-  }
-
-  Future<Map<String, dynamic>> _getHashTagBatch(startIndex, int endIndex) async {
+  Future<Map<String, dynamic>> _getHashTagBatch(int startIndex, int endIndex) async {
     // await Future.delayed(Duration(seconds: 2));
     return await get('${Urls.getHashTagsBatch}?start-index=$startIndex&end-index=$endIndex')
         .then(onValue)
@@ -37,37 +31,16 @@ class HashTagGetter extends InstaPostRequest {
     return hashTags;
   }
 
-  Future<FutureOr> onHashCountValue(Response response) async {
+  Future<int> onHashCountValue(Response response) async {
     final Map<String, dynamic> responseData = json.decode(response.body);
-    var result;
+    int hashTagCount = -1;
     if (response.statusCode == 200) {
-      setRquestorState(Status.RequestSuccessful);
-      result = {
-        'status': true,
-        'message': 'Successfully registered',
-        'body': responseData
-      };
+      hashTagCount = responseData['hashtag-count'] ?? hashTagCount;
     }
-    else {
-      setRquestorState(Status.RequestFailed);
-      result = {
-        'status': false,
-        'message': responseData['errors']
-      };
-    }
-    return result;
+    return hashTagCount;
   }
 
   Future<int> fetchHashTagCount() async {
-    Map response = await _getHashTagCount();
-    int hashTagCount = 0;
-    if(response['status']) {
-      setRquestorState(Status.RequestSuccessful);
-      hashTagCount = response['body']['hashtag-count'] ?? 0;
-    }
-    else {
-      setRquestorState(Status.RequestFailed);
-    }
-    return hashTagCount;
+    return await get(Urls.getHashTagCount).then(onHashCountValue);
   }
 }

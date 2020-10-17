@@ -10,3 +10,8 @@ Future<String> readFromSharedPref(String key) async {
   SharedPreferences sp = await SharedPreferences.getInstance();
   return sp.getString(key) ?? '';
 }
+
+Future<void> clearAllSharedPref() async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  await sp.clear();
+}

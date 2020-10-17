@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
@@ -22,7 +24,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   int startIndex = 0;
   HashTagGetter hashTagGetter;
 
-  Future<List<String>> _getHashTags() async {
+  Future<List<String>> _getHashTags(int endHashTagsIndex) async {
     return await hashTagGetter.fetchHashTags(startIndex, startIndex+MAX_HASHTAG_BATCH_SIZE);
   }
 
@@ -53,8 +55,9 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
 
   void getMoreHashTags() async {
     int totalHashTagCount = await hashTagGetter.fetchHashTagCount();
-    if(totalHashTagCount >= 0 && startIndex+MAX_HASHTAG_BATCH_SIZE < totalHashTagCount) {
-      _getHashTags().then(addMoreHashTags);
+    int endHashTagIndex = min(startIndex+MAX_HASHTAG_BATCH_SIZE, totalHashTagCount);
+    if(totalHashTagCount >= 0 && startIndex < endHashTagIndex && endHashTagIndex <= totalHashTagCount) {
+      _getHashTags(endHashTagIndex).then(addMoreHashTags);
     }
   }
 

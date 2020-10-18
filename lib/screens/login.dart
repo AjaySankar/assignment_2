@@ -5,7 +5,6 @@ import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/auth/auth.dart';
 import 'package:assignment_2/auth/authInfoUtils.dart';
 import 'package:assignment_2/utils/request_states.dart';
-import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -74,7 +73,8 @@ class _LoginState extends State<Login> {
         form.save();
         authHandle.login(_email, _password, _nickname).then((Map response) {
           if(!response['status']) {
-            showSnackBar(response['message']??'Failed to login!!');
+            print(response);
+            showSnackBar('Failed to login. Invalid credentials!!');
           }
           else {
             Navigator.pushReplacementNamed(context, '/dashboard');
@@ -156,14 +156,8 @@ class _LoginState extends State<Login> {
                                 color: Color(0xfff063057)
                             )
                         ),
-                        onPressed: () async {
-                          bool isOffline = await isDeviceOffline();
-                          if(isOffline) {
-                            showSnackBar('Please connect to internet to register!!');
-                          }
-                          else {
-                            Navigator.pushReplacementNamed(context, '/register');
-                          }
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/register');
                         },
                       ),
                     ),

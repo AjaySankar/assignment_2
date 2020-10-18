@@ -7,6 +7,7 @@ import 'package:assignment_2/auth/auth.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'package:assignment_2/network/checkIfNickNameExists.dart';
 import 'package:assignment_2/network/checkIfEmailExists.dart';
+import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 
 class Register extends StatefulWidget {
@@ -33,6 +34,7 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
+    showOfflineWarning();
     _focusNickName.addListener(() {
       if(!_focusNickName.hasFocus) {
         _showIfNickNameAvailable();
@@ -95,15 +97,27 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  Future<void> showOfflineWarning() async {
+    bool isOffline = await isDeviceOffline();
+    if(isOffline) {
+      showSnackBar('Please connect to internet to register!!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    var register = () {
+    var register = () async {
       final form = formKey.currentState;
       if (form.validate()) {
         form.save();
-        authHandle.registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) {
-          if(!response['status']) {
+        authHandle.registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) async {
+          bool isOffline = await isDeviceOffline();
+          if(isOffline) {
+            showSnackBar('Please connect to internet to register!!');
+            return;
+          }
+          else if(!response['status']) {
             showSnackBar(response['message']??'Failed to register!!');
           }
           else {

@@ -89,7 +89,7 @@ class _PostFormState extends State<PostForm> {
     var showSnackBar = (text, context) => {
       _scaffoldKey.currentState.showSnackBar(
           SnackBar(
-            content: text,
+            content: Text(text),
             duration: Duration(seconds: 3),
           )
       )
@@ -135,6 +135,7 @@ class _PostFormState extends State<PostForm> {
                   context);
             }
             else {
+              showSnackBar('Successfully created post!!', context);
               resetForm();
             }
           });
@@ -144,6 +145,7 @@ class _PostFormState extends State<PostForm> {
         }
       }
       else {
+        showSnackBar('Successfully created post!!', context);
         resetForm();
       }
     };

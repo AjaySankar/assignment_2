@@ -16,6 +16,7 @@ class GetFriendPosts extends InstaPostRequest {
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
       // print("Got post ids from offline");
+      // If device is offline, fetch post ids associated with a nickname.
       return await readPostIdsFromSharedPref(nickName);
     }
 
@@ -32,6 +33,7 @@ class GetFriendPosts extends InstaPostRequest {
   Future<FutureOr> onResponse(Response response, String nickName) async {
     Map result = await onValue(response);
     if(result['status']) {
+      // Save post ids associated with a nickname in shared preferences.
       await savePostIdsToSharedPref(result['body']['ids'], nickName);
     }
     return result;
@@ -42,6 +44,7 @@ class GetFriendPosts extends InstaPostRequest {
     await saveToSharedPref(getNickNameSharedPrefKey(nickName), postDataString);
   }
 
+  // Read post ids of a friend from shared preferences when device is offline
   Future<Map<String, dynamic>> readPostIdsFromSharedPref(String nickName) async {
     Map<String, dynamic> result = {
       'status': false,

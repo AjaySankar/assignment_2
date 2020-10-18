@@ -1,3 +1,4 @@
+// Fetch image associated with a image id.
 import 'dart:async';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
@@ -12,6 +13,7 @@ class GetPostImage extends InstaPostRequest {
 
   Future<Map<String, dynamic>> getInstaPostImage(int imageId) async {
 
+    // If device is offline, then fetch it from shared preferences.
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
       // print("Got image from offline");
@@ -32,6 +34,7 @@ class GetPostImage extends InstaPostRequest {
   Future<FutureOr> onResponse(Response response, int imageId) async {
     Map result = await onValue(response);
     if(result['status']) {
+      // If successfully fetched image, store it in shared preferences to fetch it back when device is offline.
       await savePostImageToSharedPref(result['body']['image'], imageId);
     }
     return result;
@@ -48,6 +51,7 @@ class GetPostImage extends InstaPostRequest {
       'body': {}
     };
 
+    // Read image from shared preferences.
     final String encodedImage = await readFromSharedPref(getPostImageSharedPrefKey(imageId));
     if(encodedImage.length > 0) {
       result['status'] = true;

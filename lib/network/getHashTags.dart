@@ -1,3 +1,4 @@
+// Fetch batches of hashtags
 import 'dart:async';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
@@ -24,6 +25,7 @@ class HashTagGetter extends InstaPostRequest {
 
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
+      // If device is offline, fetch hashtags from shared preferences
       return await readHashTagsFromSharedPref(startIndex, endIndex);
     }
 
@@ -37,6 +39,7 @@ class HashTagGetter extends InstaPostRequest {
       // await saveToSharedPref(HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX, '');
       int currentSavedHashTagCount = await getNumberOfHashTagsSaved();
       if(startIndex >= currentSavedHashTagCount) {
+        // Save this batch of hashtags to shared preferences only when they are not already in shared preferences.
         // print("Save newly fetched hashtags");
         saveHashTagsToSharedPref(hashTags);
       }
@@ -47,19 +50,21 @@ class HashTagGetter extends InstaPostRequest {
     return hashTags;
   }
 
-  List<String> dynamicToStringList(List<dynamic> dList) {
+  List<String> dynamicListToStringList(List<dynamic> dList) {
     List<String> sList = [];
     dList.forEach((hashTag) => sList.add(hashTag.toString()));
     return sList;
   }
 
   Future<void> saveHashTagsToSharedPref(List<String> fetchedHashTags) async {
+    // Read current hashtags stored in shared preferences
     final String currentHashTagsString = await readFromSharedPref(HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX);
     List<String> currentHashTagsList = [];
     if(currentHashTagsString.length > 0) {
-      currentHashTagsList = dynamicToStringList(json.decode(currentHashTagsString));
+      currentHashTagsList = dynamicListToStringList(json.decode(currentHashTagsString));
     }
     currentHashTagsList.addAll(fetchedHashTags);
+    // Add newly fetched hashtags and re-save them in shared preferences.
     await saveToSharedPref(HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX, json.encode(currentHashTagsList));
   }
 
@@ -74,8 +79,9 @@ class HashTagGetter extends InstaPostRequest {
 
   Future<List<String>> readHashTagsFromSharedPref(int startIndex, int endIndex) async {
     // print("Got hashtag from offline");
+    // Read hashtag batch from shared preferences.
     final String hashTagsString = await readFromSharedPref(HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX);
-    List<String> hashTags = dynamicToStringList(json.decode(hashTagsString));
+    List<String> hashTags = dynamicListToStringList(json.decode(hashTagsString));
     setRquestorState(Status.RequestSuccessful);
     return hashTags.sublist(startIndex, endIndex);
   }
@@ -84,12 +90,14 @@ class HashTagGetter extends InstaPostRequest {
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
       // print("Got hashtag count from offline");
+      // If device offline, get count from hashtags stored in shared preferences.
       return await getNumberOfHashTagsSaved();
     }
     return await get(Urls.getHashTagCount).then(onHashCountValue);
   }
 
   Future<int> getNumberOfHashTagsSaved() async {
+    // Count hashtags saved in shared preferences
     final String currentHashTagsString = await readFromSharedPref(HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX);
     if(currentHashTagsString.length > 0) {
       return json.decode(currentHashTagsString).length;

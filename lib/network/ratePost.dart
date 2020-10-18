@@ -1,3 +1,4 @@
+// Rate post network call.
 import 'dart:async';
 import 'dart:convert';
 import 'package:assignment_2/utils/urls.dart';
@@ -10,13 +11,6 @@ class RatePost  extends InstaPostRequest {
 
   Future<Map<String, dynamic>> rate(int postId, int rating) async {
     User user = User();
-    // user.setUserProfile({
-    //   "firstName": "Test",
-    //   "lastName": "User",
-    //   "nickname": "ajaytest",
-    //   "email": "ajaytest@gmail.com",
-    //   "password": "testuser"
-    // });
     final Map<String, dynamic> postData = {
       "email": user.email,
       "password": user.password,

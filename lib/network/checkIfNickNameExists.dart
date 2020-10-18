@@ -1,3 +1,4 @@
+// Check if a nickname is available.
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';

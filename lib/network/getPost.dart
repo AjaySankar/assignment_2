@@ -1,3 +1,4 @@
+// Fetch post associated with a post id.
 import 'dart:async';
 import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
@@ -13,6 +14,7 @@ class GetPost extends InstaPostRequest {
 
   Future<Map<String, dynamic>> getInstaPost(int postId) async {
 
+    // If device is offline, then fetch it from shared preferences.
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
       // print("Got post from offline");
@@ -32,6 +34,7 @@ class GetPost extends InstaPostRequest {
   Future<FutureOr> onResponse(Response response, int postId) async {
     Map result = await onValue(response);
     if(result['status']) {
+      // If successfully fetched post, store it in shared preferences to fetch it back when device is offline.
       await savePostToSharedPref(result['body']['post'], postId);
     }
     return result;
@@ -49,6 +52,7 @@ class GetPost extends InstaPostRequest {
       'body': {}
     };
 
+    // Read post from shared preferences.
     final String postString = await readFromSharedPref(getPostSharedPrefKey(postId));
     if(postString.length > 0) {
       result['status'] = true;

@@ -43,6 +43,7 @@ class GetNickNames extends InstaPostRequest {
 
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
+      // If device is offline, read nicknames from shared preferences.
       // print("Got nicknames from offline");
       return await readNickNamesFromSharedPref();
     }
@@ -61,11 +62,13 @@ class GetNickNames extends InstaPostRequest {
     return nickNames;
   }
 
+  // Store fetched nicknames in shared preferences
   Future<void> saveNickNamesToSharedPref(List<String> nickNames) async {
     String nickNamesString = nickNames.join(',');
     await saveToSharedPref(NICKNAMES_LIST_SHARED_PREF_KEY_PREFIX, nickNamesString);
   }
 
+  // Read nicknames from shared preferences
   Future<List<String>> readNickNamesFromSharedPref() async {
     setRquestorState(Status.RequestInProcess);
     final String nickNamesString = await readFromSharedPref(NICKNAMES_LIST_SHARED_PREF_KEY_PREFIX);

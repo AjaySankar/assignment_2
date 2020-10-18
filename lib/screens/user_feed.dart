@@ -1,3 +1,4 @@
+// Show logged in user feed.
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/feed.dart';
 import 'package:assignment_2/network/getFriendPosts.dart';

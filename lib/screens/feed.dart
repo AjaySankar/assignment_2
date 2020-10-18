@@ -1,8 +1,10 @@
+// Generic feed builder for user feed, nickname feed, hashtag feed.
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/insta_post.dart';
 import 'package:assignment_2/utils/errorScreen.dart';
 import 'package:assignment_2/utils/emptyFeedScreen.dart';
 
+// List view for the feed of insta posts.
 class _FeedListBuilder extends StatelessWidget {
   final List<InstaPost> items;
 
@@ -31,10 +33,12 @@ class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
 
+    // Fetch insta post widget for a given post id.
     List<InstaPost> getInstaPosts(List<int> postIds) {
       return postIds.map((postId) => InstaPost(postId)).toList();
     }
 
+    // Fetch post ids for the posts to be shown in the feed.
     var buildFeed = (response) {
       if(response['status']) {
         List<int> postIds = [];

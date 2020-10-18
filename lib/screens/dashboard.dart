@@ -1,3 +1,4 @@
+// Tab view for user home, nicknames, hashtags and create post form.
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/screens/nicknames.dart';

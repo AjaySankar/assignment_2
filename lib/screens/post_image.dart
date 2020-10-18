@@ -1,3 +1,4 @@
+// Fetch image associated to a post.
 import 'package:flutter/material.dart';
 import 'package:assignment_2/network/getPostImage.dart';
 import 'package:assignment_2/utils/request_states.dart';
@@ -23,6 +24,7 @@ class _PostImageState extends State<PostImage> {
   @override
   Widget build(BuildContext context) {
 
+    // As this widget is a read-only for the post context provider. This prevents unnecessary builds.
     final postProvider = Provider.of<PostModel>(context, listen: false);
     final int imageId = postProvider.imageId;
 
@@ -39,6 +41,7 @@ class _PostImageState extends State<PostImage> {
 
     var getImageFromResponse = (response) {
       if(response['status']) {
+        // There is sometimes a problem with decoding a base64 string.
         try {
           final base64EncodedImage = response['body']['image'];
           return Image.memory(

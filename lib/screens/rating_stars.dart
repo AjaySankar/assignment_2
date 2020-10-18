@@ -1,3 +1,4 @@
+// Rating stars for an image post.
 //https://pub.dev/packages/smooth_star_rating
 
 import 'package:assignment_2/network/ratePost.dart';
@@ -43,6 +44,7 @@ class _RatingStarsState extends State<RatingStars> {
     void ratePost(PostModel postModel, int rating, BuildContext context) async{
       bool isOffline = await isDeviceOffline();
       if(isOffline) {
+        // Disable post rating when device is offline.
         showSnackBar('You are offline!! Connect to internet to rate a post', context);
         return;
       }

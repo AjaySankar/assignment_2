@@ -1,3 +1,4 @@
+// Shows list of current nicknames fetched from an API call.
 import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
@@ -14,9 +15,11 @@ class NickNames extends StatefulWidget {
   _NickNamesState createState() => _NickNamesState();
 }
 
+// AutomaticKeepAliveClientMixin to keep state alive when user switches between tabs
 class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixin<NickNames>{
   List<String> nickNames = [];
   Status _getNickNamesRequestState = Status.NotRequested;
+  // Fetch nicknames and store in state.
   Future<List<String>> _getNickNames() async {
     // await Future.delayed(Duration(seconds: 2));
     return await GetNickNames((Status requestState) {
@@ -59,6 +62,7 @@ class _NickNamesState extends State<NickNames> with AutomaticKeepAliveClientMixi
   }
 }
 
+// Grid for fetched nicknames
 class _NickNameGrid extends StatelessWidget {
   final List<String> nickNames;
 
@@ -85,6 +89,7 @@ class _NickNameGrid extends StatelessWidget {
   }
 }
 
+// Nickname cell in the grid. On clicking a nickname, navigate to the nickname's feed.
 class _NickName extends StatelessWidget {
   final String nickName;
   final Function goToMyFeedPage;

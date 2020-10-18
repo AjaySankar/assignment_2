@@ -1,3 +1,4 @@
+// Show a hashtag's feed.
 import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';

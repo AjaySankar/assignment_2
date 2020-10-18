@@ -1,3 +1,4 @@
+// Create post form.
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
@@ -122,6 +123,7 @@ class _PostFormState extends State<PostForm> {
       });
     }
 
+    // Upload image associated to the post.
     var uploadImage = (int postId) {
       if(!(_image == null)) {
         try {
@@ -150,6 +152,7 @@ class _PostFormState extends State<PostForm> {
       }
     };
 
+    // Upload post and get newly created post id.
     var uploadPost = () {
       final form = _postFormKey.currentState;
       if (form.validate()) {

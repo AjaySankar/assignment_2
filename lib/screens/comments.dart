@@ -1,3 +1,4 @@
+// Insta post widget associated with a post id.
 import 'package:flutter/material.dart';
 import 'package:assignment_2/network/commentPost.dart';
 import 'package:assignment_2/utils/request_states.dart';

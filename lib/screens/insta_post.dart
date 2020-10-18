@@ -1,3 +1,4 @@
+// Insta post widget associated with a post id.
 import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/screens/post_image.dart';
@@ -17,6 +18,7 @@ class InstaPost extends StatefulWidget {
   InstaPostState createState() => InstaPostState();
 }
 
+// AutomaticKeepAliveClientMixin to keep state alive when user switches between tabs
 class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin {
   GetPost getPostHandle;
 
@@ -33,6 +35,7 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
   Widget build(BuildContext context) {
     super.build(context);
 
+    // Error card contents as placeholder in case of any problem fetching post.
     Widget getErrorCardContents([IconData icon = Icons.broken_image, Color iconColor = Colors.red, errorMsg = 'Failed to fetch post']) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -50,6 +53,7 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
       );
     }
 
+    // Successful post request's card contents.
     Widget buildInstaPostCardContents() {
       return Column (
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,6 +70,7 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
       );
     }
 
+    // Build card with passed card contents
     Widget buildCard(Widget cardContents) {
       return Card(
         child: Container(
@@ -75,7 +80,9 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
       );
     }
 
+    // Wrap card contents from a successful fetch request in a change notifier.
     Widget buildPostChangeNotifierProvider(BuildContext context, Post initPostData, Widget cardContents) {
+      // Initialize post model in state with fetched post contents.
       return ChangeNotifierProvider(
         create: (context) => PostModel(initPostData),
         child: buildCard(cardContents)
@@ -120,7 +127,7 @@ class InstaPostState extends State<InstaPost> with AutomaticKeepAliveClientMixin
   }
 }
 
-
+// Hashtags shown in the insta post.
 class HashTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -142,6 +149,7 @@ class HashTags extends StatelessWidget {
   }
 }
 
+// Post description show in insta post.
 class PostDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

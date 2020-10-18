@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
   Auth authHandle;
 
   Future<void> initializeLoginForm() async {
+    // Read user credentials saved in shared preferences and preload login form
     String nickName = await getNickNameFromSharedPref();
     String email = await getEmailFromSharedPref();
     String password = await getPasswordFromSharedPref();
@@ -68,6 +69,7 @@ class _LoginState extends State<Login> {
     };
 
     var login = () {
+      // Authenticate login request
       final form = formKey.currentState;
       if (form.validate()) {
         form.save();
@@ -77,6 +79,7 @@ class _LoginState extends State<Login> {
             showSnackBar('Failed to login. Invalid credentials!!');
           }
           else {
+            // Go to user dashboard on successful login
             Navigator.pushReplacementNamed(context, '/dashboard');
           }
         });
@@ -157,6 +160,7 @@ class _LoginState extends State<Login> {
                             )
                         ),
                         onPressed: () {
+                          // Go to register form.
                           Navigator.pushReplacementNamed(context, '/register');
                         },
                       ),

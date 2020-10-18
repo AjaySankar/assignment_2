@@ -34,7 +34,9 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
+    // Show warning when device is offline.
     showOfflineWarning();
+    // Attach on focus out event listeners to check(by an API call) if email/nickname are available
     _focusNickName.addListener(() {
       if(!_focusNickName.hasFocus) {
         _showIfNickNameAvailable();
@@ -52,6 +54,7 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  // show snackbar if nickname is not available
   void _showIfNickNameAvailable() {
     String currentNickNameEntered = nickNameController.text;
     if(currentNickNameEntered.length > 0) {
@@ -63,6 +66,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
+  // show snackbar if email is not available
   void _showIfEmailAvailable() {
     String currentEmailEntered = emailController.text;
     if(isEmailValidFormat(currentEmailEntered)) {
@@ -110,10 +114,12 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
 
     var register = () async {
+      // New user Registration API call.
       final form = formKey.currentState;
       if (form.validate()) {
         form.save();
         authHandle.registerUser(_firstName, _lastName, _nickName, _email, _password).then((response) async {
+          // check if device is offline when user clicks on Register button and show warning.
           bool isOffline = await isDeviceOffline();
           if(isOffline) {
             showSnackBar('Please connect to internet to register!!');
@@ -123,6 +129,7 @@ class _RegisterState extends State<Register> {
             showSnackBar(response['message']??'Failed to register!!');
           }
           else {
+            // Go to dashboard on successful registration.
             Navigator.pushReplacementNamed(context, '/dashboard');
           }
         });

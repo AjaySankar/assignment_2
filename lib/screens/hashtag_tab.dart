@@ -1,5 +1,6 @@
+// Shows list of hashtags from an API call.
+// Fetch hashtags batchwise on demand(on clicking a fab).
 import 'dart:math';
-
 import 'package:assignment_2/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_2/utils/request_states.dart';
@@ -24,10 +25,12 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   int startIndex = 0;
   HashTagGetter hashTagGetter;
 
+  // Fetch hashtags withing a range.
   Future<List<String>> _getHashTags(int endHashTagsIndex) async {
     return await hashTagGetter.fetchHashTags(startIndex, endHashTagsIndex);
   }
 
+  // Add fetched hashtags to current list.
   void addMoreHashTags(List<String> fetchedHashTags) {
     if(_getHashTagsRequestedState == Status.RequestSuccessful) {
       if(!this.mounted) return;
@@ -53,6 +56,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   @override
   bool get wantKeepAlive => true;
 
+  // Adjust batch size and request for hashtags.
   void getMoreHashTags() async {
     int totalHashTagCount = await hashTagGetter.fetchHashTagCount();
     int endHashTagIndex = min(startIndex+MAX_HASHTAG_BATCH_SIZE, totalHashTagCount);
@@ -62,7 +66,9 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
   }
 
   Widget getFAB() {
+    // FAB to get more hashtags on demand.
     if(_getHashTagsRequestedState == Status.RequestInProcess) {
+      // Show circular loader when fetching more hashtags.
       return FloatingActionButton(
           heroTag: "Hashtag feed fab",
           backgroundColor: getThemeColor(),
@@ -70,7 +76,6 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
             valueColor: AlwaysStoppedAnimation<Color>(getThemeColor()),
             backgroundColor: Colors.white,
           ),
-          onPressed: getMoreHashTags
       );
     }
     return FloatingActionButton(
@@ -81,6 +86,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
     );
   }
 
+  // Go to hashtag feed on clicking on a hashtag.
   void goToHashTagFeed(BuildContext context, [String hashTag = '']) {
     Navigator.push(
         context,
@@ -90,6 +96,7 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
     );
   }
 
+  // Build list of fetched hashtags
   Widget buildHashTags(BuildContext context) {
     return ListView.separated(
       itemCount: hashTags.length,
@@ -109,6 +116,8 @@ class _HashTagsState extends State<HashTagsTab> with AutomaticKeepAliveClientMix
     );
   }
 
+  //Bottom navigation bar.
+  //Apparently, the bottom nav bar needs at least one icon. So added an invisible iconbutton.
   Widget getBottonNavigationBar() {
     return BottomAppBar(
       shape: CircularNotchedRectangle(),

@@ -132,7 +132,7 @@ class HashTags extends StatelessWidget {
               return TextSpan(
                   text: hashTag,
                   style: TextStyle(
-                      color: getThemeColor()
+                      color: getThemeColor(),
                   )
               );
             }).toList()
@@ -146,6 +146,11 @@ class PostDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final postProvider = Provider.of<PostModel>(context, listen: false);
-    return Text(postProvider.description);
+    return Text(
+        postProvider.description,
+      style: TextStyle(
+        fontSize: 15
+      ),
+    );
   }
 }

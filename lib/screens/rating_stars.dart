@@ -57,7 +57,7 @@ class _RatingStarsState extends State<RatingStars> {
           borderColor: post.userRating > 0 ? Color(0xfffffce00) : getThemeColor(),
           rating: post.userRating.toDouble(),
           isReadOnly: post.userRating > 0,
-          size: 20,
+          size: 30,
           filledIconData: Icons.star,
           halfFilledIconData: Icons.star_half,
           defaultIconData: Icons.star_border,

@@ -20,12 +20,13 @@ class HashTagGetter extends InstaPostRequest {
   }
 
   Future<List<String>> fetchHashTags(int startIndex, int endIndex) async {
+    setRequestInProgressState();
+
     bool isOffline = await isDeviceOffline();
     if(isOffline) {
       return await readHashTagsFromSharedPref(startIndex, endIndex);
     }
 
-    setRequestInProgressState();
     Map response = await _getHashTagBatch(startIndex, endIndex);
     List<String> hashTags = [];
     if(response['status']) {
@@ -73,7 +74,6 @@ class HashTagGetter extends InstaPostRequest {
 
   Future<List<String>> readHashTagsFromSharedPref(int startIndex, int endIndex) async {
     // print("Got hashtag from offline");
-    setRquestorState(Status.RequestInProcess);
     final String hashTagsString = await readFromSharedPref(HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX);
     List<String> hashTags = dynamicToStringList(json.decode(hashTagsString));
     setRquestorState(Status.RequestSuccessful);

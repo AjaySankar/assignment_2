@@ -17,4 +17,6 @@ class Urls {
   static const String getHashTagPostIds = queryBaseURL + "/hashtags-post-ids";
   static const String login = queryBaseURL + "/authenticate";
   static const String ping = "https://bismarck.sdsu.edu/api/ping";
+  static const String checkIfNickNamesExists = queryBaseURL+"/nickname-exists";
+  static const String checkIfEmailExists = queryBaseURL+"/email-exists";
 }

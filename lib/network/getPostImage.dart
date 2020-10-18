@@ -4,7 +4,7 @@ import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
 import 'package:assignment_2/network/postRequestBase.dart';
 import 'package:assignment_2/network/deviceOfflineCheck.dart';
-import 'package:assignment_2/shared_pref_utils/sharedPref.dart';
+import 'package:assignment_2/utils/sharedPref.dart';
 
 const String POST_IMAGE_SHARED_PREF_KEY_PREFIX = "InstaPostImage-";
 

@@ -3,7 +3,7 @@ import 'package:assignment_2/utils/urls.dart';
 import 'package:http/http.dart';
 import 'package:assignment_2/network/postRequestBase.dart';
 import 'dart:convert';
-import 'package:assignment_2/shared_pref_utils/sharedPref.dart';
+import 'package:assignment_2/utils/sharedPref.dart';
 import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 const String NICKNAME_SHARED_PREF_KEY_PREFIX = "Nickname-";

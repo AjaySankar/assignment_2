@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import 'package:assignment_2/network/postRequestBase.dart';
 import 'package:assignment_2/utils/request_states.dart';
 import 'dart:convert';
-import 'package:assignment_2/shared_pref_utils/sharedPref.dart';
+import 'package:assignment_2/utils/sharedPref.dart';
 import 'package:assignment_2/network/deviceOfflineCheck.dart';
 
 const String HASHTAGS_LIST_SHARED_PREF_KEY_PREFIX = "HashTags";

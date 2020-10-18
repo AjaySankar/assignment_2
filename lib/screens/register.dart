@@ -5,6 +5,9 @@ import 'package:assignment_2/utils/validators.dart';
 import 'package:assignment_2/utils/theme.dart';
 import 'package:assignment_2/auth/auth.dart';
 import 'package:assignment_2/utils/request_states.dart';
+import 'package:assignment_2/network/checkIfNickNameExists.dart';
+import 'package:assignment_2/network/checkIfEmailExists.dart';
+
 
 class Register extends StatefulWidget {
   @override
@@ -16,17 +19,8 @@ class _RegisterState extends State<Register> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>(); // Hack to show snack bar -> https://bit.ly/2SslerY
   Status _registeredInStatus = Status.NotRequested;
   Auth authHandle;
-
-  @override
-  void initState() {
-    super.initState();
-    authHandle = Auth((Status registrationState) {
-      setState(() {
-        _registeredInStatus = registrationState;
-      });
-    });
-  }
-
+  FocusNode _focusNickName = new FocusNode();
+  FocusNode _focusEmail = new FocusNode();
   String _firstName, _lastName, _password, _nickName, _email;
   TextEditingController nickNameController = TextEditingController(text: '');
   TextEditingController firstNameController = TextEditingController(text: '');
@@ -34,6 +28,50 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController(text: '');
   TextEditingController confirmPasswordController = TextEditingController(text: '');
   TextEditingController emailController = TextEditingController(text: '');
+
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNickName.addListener(() {
+      if(!_focusNickName.hasFocus) {
+        _showIfNickNameAvailable();
+      }
+    });
+    _focusEmail.addListener(() {
+      if(!_focusEmail.hasFocus) {
+        _showIfEmailAvailable();
+      }
+    });
+    authHandle = Auth((Status registrationState) {
+      setState(() {
+        _registeredInStatus = registrationState;
+      });
+    });
+  }
+
+  void _showIfNickNameAvailable() {
+    String currentNickNameEntered = nickNameController.text;
+    if(currentNickNameEntered.length > 0) {
+      doesNickNameExist(currentNickNameEntered).then((isNickNameAlreadyUsed) {
+        if(isNickNameAlreadyUsed) {
+          showSnackBar('$currentNickNameEntered is already in use!! Try some other nickname.');
+        }
+      });
+    }
+  }
+
+  void _showIfEmailAvailable() {
+    String currentEmailEntered = emailController.text;
+    if(isEmailValidFormat(currentEmailEntered)) {
+      print(currentEmailEntered);
+      doesEmailExist(currentEmailEntered).then((isEmailAlreadyUsed) {
+        if(isEmailAlreadyUsed) {
+          showSnackBar('$currentEmailEntered is already in use!! Try some other email.');
+        }
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -48,17 +86,17 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
+  void showSnackBar(text) {
+    _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text(text),
+          duration: Duration(seconds: 3),
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    var showSnackBar = (text) => {
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(text),
-            duration: Duration(seconds: 3),
-          )
-      )
-    };
 
     var register = () {
       final form = formKey.currentState;
@@ -131,6 +169,7 @@ class _RegisterState extends State<Register> {
                               autofocus: false,
                               onSaved: (value) => setState(() { _nickName = nickNameController.text; }),
                               decoration: buildInputDecoration("Nick Name", Icons.account_circle),
+                              focusNode: _focusNickName,
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
@@ -148,6 +187,7 @@ class _RegisterState extends State<Register> {
                               validator: validateEmail,
                               onSaved: (value) => setState(() { _email = emailController.text; }),
                               decoration: buildInputDecoration("Email", Icons.email),
+                              focusNode: _focusEmail,
                             ),
                             SizedBox(height: 20.0),
                             _registeredInStatus == Status.RequestInProcess

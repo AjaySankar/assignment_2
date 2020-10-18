@@ -1,5 +1,6 @@
 import 'package:assignment_2/shared_pref_utils/sharedPref.dart';
 
+// Store and fetch utilities for user credentials.
 const String NICK_NAME_KEY = "InstaPostNickName";
 const String EMAIL_KEY = "InstaPostEmail";
 const String PASSWORD_KEY = "InstaPostPassword";

@@ -50,6 +50,7 @@ class Auth {
     final Map<String, dynamic> responseData = json.decode(response.body);
     var result;
     if (response.statusCode == 200 && (responseData["result"] == "success" || responseData["result"] == true)) {
+      // On successful login, store user info in memory and shared preferences.
       User().setUserProfile(authInput);
       saveUserLoginInSharedPref(authInput);
       _setRquestorState(Status.RequestSuccessful);
@@ -76,6 +77,7 @@ class Auth {
     };
   }
 
+  // offline login to authenticate against stored credentials in shared preferences.
   Future<Map<String, dynamic>> doOfflineLogin(Map<String, String> loginData) async {
     Map<String, dynamic> loginResult;
     String nickNamePref = await getNickNameFromSharedPref();
@@ -89,6 +91,7 @@ class Auth {
         'message': 'Login successful'
       };
       _setRquestorState(Status.RequestSuccessful);
+      // On successful login, store user info in memory and shared preferences.
       User().setUserProfile(loginData);
       saveUserLoginInSharedPref(loginData);
     }

@@ -1,4 +1,5 @@
 // Reference - https://medium.com/@aslamanver/email-validation-in-dart-flutter-e1f3264ab59d
+// Validators for create post, register and login forms
 
 const int MIN_HASH_TAG_LEN = 2; // Including # symbol
 
@@ -31,6 +32,7 @@ String validatePassword(String value) {
   return _msg;
 }
 
+// Validate post description and hashtags.
 String validatePost(String post) {
   String _msg;
   List<String> hashTags = getHashTags(post);
@@ -48,6 +50,7 @@ String validatePost(String post) {
 }
 
 
+// Extract hashtags from post description.
 List<String> getHashTags(String post) {
   RegExp exp = new RegExp(r"\B#\w*");
   List<String> hashTags = [];
@@ -57,6 +60,7 @@ List<String> getHashTags(String post) {
   return hashTags;
 }
 
+// Validate hashtags in the post description.
 List<String> getInValidHashTags(List<String> hashTags) {
   return hashTags.where((element) => element.length < MIN_HASH_TAG_LEN).toList();
 }

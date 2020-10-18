@@ -1,3 +1,4 @@
+// User model -> Singleton class.
 class User {
   static final _user = User._internal();
   String _firstName = '', _lastName = '', _password = '', _nickName = '', _email = '';

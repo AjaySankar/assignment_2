@@ -1,3 +1,4 @@
+// Post model
 class Post {
 
   List<String> comments;

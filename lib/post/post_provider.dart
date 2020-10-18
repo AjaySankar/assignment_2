@@ -1,3 +1,4 @@
+// State provider of an insta post.
 import 'package:flutter/cupertino.dart';
 import 'package:assignment_2/post/post.dart';
 

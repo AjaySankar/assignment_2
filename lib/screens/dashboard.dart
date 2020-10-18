@@ -21,10 +21,10 @@ class _DashBoardState extends State<DashBoard> {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(FontAwesomeIcons.user), text: "Your feed",),
-              Tab(icon: Icon(FontAwesomeIcons.userFriends), text: "Nick names",),
-              Tab(icon: Icon(FontAwesomeIcons.hashtag), text: "Hash tags"),
-              Tab(icon: Icon(FontAwesomeIcons.plus), text: "New post"),
+              Tab(icon: Icon(FontAwesomeIcons.home)),
+              Tab(icon: Icon(FontAwesomeIcons.userFriends)),
+              Tab(icon: Icon(FontAwesomeIcons.hashtag)),
+              Tab(icon: Icon(FontAwesomeIcons.plusCircle)),
             ],
           ),
           title: Text('InstaPost'),

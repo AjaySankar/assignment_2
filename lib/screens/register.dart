@@ -85,6 +85,8 @@ class _RegisterState extends State<Register> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     emailController.dispose();
+    _focusEmail.removeListener(() { });
+    _focusNickName.removeListener(() { });
     super.dispose();
   }
 

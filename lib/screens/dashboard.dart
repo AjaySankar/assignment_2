@@ -6,6 +6,8 @@ import 'package:assignment_2/screens/hashtag_tab.dart';
 import 'package:assignment_2/screens/user_feed.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:assignment_2/screens/create_post.dart';
+import 'package:assignment_2/network/addPost.dart';
+import 'package:assignment_2/utils/request_states.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -13,6 +15,18 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+
+  Status _uploadOfflinePostStatus = Status.NotRequested;
+
+  @override
+  void initState() {
+    AddInstaPost addPostHandle = AddInstaPost((Status requestState) {
+      setState(() {
+        _uploadOfflinePostStatus = requestState;
+      });
+    });
+    addPostHandle.processOfflinePosts();
+  }
 
   @override
   Widget build(BuildContext context) {

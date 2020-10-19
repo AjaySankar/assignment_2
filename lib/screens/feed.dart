@@ -46,6 +46,7 @@ class _FeedState extends State<Feed> {
         if(postIds.length == 0){
           return getEmptyFeedScreen("Feed is empty");
         }
+        postIds = postIds.reversed.toList();
         return _FeedListBuilder(items: getInstaPosts(postIds));
       }
       return getErrorScreen(response['message']);
